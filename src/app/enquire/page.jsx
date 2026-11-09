@@ -1,0 +1,4 @@
+import InquiryForm from '@/components/InquiryForm';
+import {publishedOne} from '@/lib/content-server';
+export const metadata={title:'Enquire'};export const dynamic='force-dynamic';
+export default async function Enquire({searchParams}){const {destination='',experience=''}=await searchParams;const page=await publishedOne('pages','enquire')||{};return <main className="tb-form-page"><div className="tb-form-page-intro"><span className="tb-eyebrow">LET US BEGIN</span><h1>{page.title||<>Your next chapter<br/><em>starts here.</em></>}</h1><p>{page.summary||'Have a place, experience or journey in mind? Share it with us and our team will reach out.'}</p></div><InquiryForm source="enquiry" initialDestination={String(destination).slice(0,100)} initialPurpose={experience?`Experience: ${String(experience).slice(0,130)}`:""} initialNotes={experience?`I would like to enquire about ${String(experience).slice(0,130)}.`:""}/></main>;}

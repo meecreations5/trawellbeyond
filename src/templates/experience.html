@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#ffffff"/>
+<meta name="description" content="__TB_META_DESCRIPTION__"/><title>__TB_META_TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/experience.css"/><link rel="stylesheet" href="/experience-detail.css"/>
+<link rel="stylesheet" href="/sg-gallery.css"/>
+<link rel="stylesheet" href="/global-footer.css" />
+<link rel="stylesheet" href="/travel-guide-v75.css" />
+</head>
+<body class="experience-detail-page">
+<div id="scrollProgress" aria-hidden="true" class="scroll-progress"></div>
+<div class="utility"><span id="tbTopLeft">TRAVEL · JOURNEYS · EXPERIENCES</span><span id="tbTopRight">A DREAMTRAWELL DESTINATION VENTURE</span></div>
+<header class="tb-header" id="top">
+ <a class="brand-link" href="/" aria-label="TrawellBeyond homepage"><img src="/assets/trawellbeyond-display.svg" alt="TrawellBeyond"/></a>
+ <nav class="desktop-links" id="tbDesktopNav" aria-label="Primary"><a href="/destinations">Destinations</a><a href="/experiences">Experiences</a><a href="/journeys">Journeys</a><a href="/create">CREATE</a></nav>
+ <a class="top-create" id="tbTopCta" href="__TB_CREATE_URL__">Add to CREATE <span>↗</span></a>
+ <button id="navToggle" class="hamburger" aria-label="Open menu" aria-controls="navMobile" aria-expanded="false"><span></span><span></span></button>
+</header>
+<nav id="navMobile" class="mobile-links" hidden aria-label="Mobile"><a href="/">Home</a><a href="/experiences">Experiences</a><a href="__TB_CREATE_URL__">Add to CREATE ↗</a></nav>
+<main>
+ <section class="ex-hero" aria-labelledby="experienceTitle">
+  <div class="scenic ex-hero__image" aria-hidden="true" style="--remote:url('__TB_IMAGE__');--local:url('/assets/hero-fallback.svg')"></div>
+  <div class="ex-hero__shade" aria-hidden="true"></div>
+  <div class="ex-hero__top page-width"><a href="__TB_DEST_URL__">← __TB_DEST_NAME__</a><span>EXPERIENCES / CREATED AROUND YOU</span></div>
+  <div class="ex-hero__content page-width">
+    <span class="ex-eyebrow"><span class="ex-line"></span> __TB_DEST_NAME__ / __TB_CATEGORY__</span>
+    <h1 id="experienceTitle">__TB_TITLE__</h1>
+    <div class="ex-hero__bottom"><p>__TB_SUMMARY__</p><a class="ex-circle-down" href="#experience-story" aria-label="Explore the experience">↓</a><span>SCROLL TO EXPLORE</span></div>
+  </div>
+  <div class="ex-hero__index" aria-hidden="true">01 / EXPERIENCE</div>
+ </section>
+ <section class="ex-intro page-width" id="experience-story" aria-labelledby="storyTitle">
+  <div class="ex-section-no rise">01 / THE EXPERIENCE</div>
+  <div class="ex-intro__heading rise"><h2 id="storyTitle">A moment to<br/><em>make yours.</em></h2><p class="ex-intro__lead">__TB_SUMMARY__</p></div>
+  <div class="ex-intro__body rise">__TB_DESCRIPTION__<div class="ex-intro__actions">__TB_ADD_TO_TRAY__<a href="__TB_CREATE_URL__" class="ex-text-link">Add to CREATE <span>↗</span></a><a href="#experience-enquiry" class="ex-text-link">Ask about this experience <span>↗</span></a></div></div>
+ </section>
+ <section class="ex-highlights" id="highlights" aria-labelledby="highlightsTitle">
+  <div class="page-width"><div class="ex-section-top rise"><span class="ex-section-no">02 / THE HIGHLIGHTS</span><h2 id="highlightsTitle">The moments<br/><em>that stand out.</em></h2><p>Every experience has its own story. Here are a few reasons this one could be part of yours.</p></div>
+  <div class="ex-highlight-grid">__TB_HIGHLIGHTS__</div></div>
+ </section>
+ __TB_GALLERY_SECTION__
+ __TB_EXPERIENCE_VIDEO__
+ <section class="ex-info page-width" id="practical" aria-labelledby="practicalTitle">
+  <div class="ex-info__heading rise"><span class="ex-section-no">04 / GOOD TO KNOW</span><h2 id="practicalTitle">Thoughtful details.<br/><em>Easier decisions.</em></h2><p>Use these details as a starting point. Our team will confirm current schedules, arrangements and availability for your travel dates.</p></div>
+  <div class="ex-facts rise">__TB_FACTS__</div>
+  <div class="ex-notes-grid">__TB_NOTES__</div>
+  __TB_SOURCE_NOTE__
+ </section>
+ __TB_VISIT_GUIDE__
+ __TB_RELATED_SECTION__
+ __TB_PHOTO_CREDITS__
+ <section class="ex-create-banner" aria-labelledby="createTitle"><div class="page-width ex-create-inner rise"><span class="ex-section-no">CREATED AROUND YOU</span><h2 id="createTitle">One experience.<br/><em>Your kind of journey.</em></h2><p>Choose this experience and tell us the rest. We can build a journey around the moments that matter to you.</p><a href="__TB_CREATE_URL__" class="ex-orange-link">Add to my journey <span>↗</span></a></div></section>
+ <section class="ex-enquiry page-width" id="experience-enquiry" aria-labelledby="enquiryTitle">
+  <div class="ex-enquiry__intro rise"><span class="ex-section-no">05 / START THE CONVERSATION</span><h2 id="enquiryTitle">Let's make it<br/><em>your moment.</em></h2><p>Ask about __TB_TITLE__ or include it in a complete itinerary. Our team will review your request and get back to you.</p><p class="ex-enquiry__small">No online payment. An enquiry does not confirm a booking.</p></div>
+  <form id="experienceEnquiryForm" class="ex-enquiry__form rise" action="/enquire" method="post">
+   <input type="hidden" name="destination" value="__TB_DEST_NAME__"/><input type="hidden" name="experience" value="__TB_TITLE__"/>
+   <div class="ex-form-grid"><label>Your name *<input name="name" autocomplete="name" required minlength="2" maxlength="120" placeholder="Your full name"/></label><label>Phone number *<input name="phone" type="tel" autocomplete="tel" required maxlength="40" placeholder="With country code"/></label></div>
+   <div class="ex-form-grid"><label>Email address<input name="email" type="email" autocomplete="email" maxlength="160" placeholder="you@example.com"/></label><label>When would you like to go?<input name="dates" maxlength="160" placeholder="Dates or flexible"/></label></div>
+   <label>Who is travelling?<input name="travelers" maxlength="50" placeholder="2 adults, 1 child..."/></label>
+   <label>Your notes<textarea name="notes" rows="4" maxlength="2000" placeholder="Preferred pace, timing or anything we should understand"></textarea></label>
+   <label class="ex-honey" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"/></label>
+   <label class="ex-consent"><input name="consent" type="checkbox" required/><span>I agree that TrawellBeyond may contact me about this enquiry.</span></label>
+   <noscript><p class="ex-form-status">Please enable JavaScript to send this form, or use our <a href="__TB_ENQUIRE_URL__">enquiry page</a>.</p></noscript>
+   <button class="ex-submit" type="submit">Send enquiry <span>↗</span></button>
+   <p class="ex-form-status" id="exFormStatus" role="status" aria-live="polite"></p>
+  </form>
+ </section>
+</main>
+<footer class="tb-footer page-width"><div class="footer-top"><a href="/"><img alt="TrawellBeyond" src="/assets/trawellbeyond-display.svg"/></a><div id="tbFooterCopy">TRAVEL · JOURNEYS · EXPERIENCES<br/><strong>Created Around You.</strong></div></div><div class="footer-under"><span id="tbFooterCompany">A DreamTrawell Destination Venture</span><span id="tbFooterBottom">Enquiry-led travel. No online payments.</span><a href="#top">Back to top ↑</a></div><nav class="tb-extra-footer" id="tbFooterLinks"><a href="/destinations">Destinations</a> <a href="/journeys">Journeys</a> <a href="/our-story">Our Story</a> <a href="/contact">Contact</a> <a href="/privacy">Privacy</a> <a href="/terms">Terms</a></nav><div class="tb-extra-cta" id="tbFooterContact"><a href="/create">CREATE your journey &nearr;</a></div></footer>
+<script id="tb-page-data" type="application/json">__TB_BOOTSTRAP__</script><script src="/enquiry-bridge.bundle.js" defer></script><script src="/experience.js" defer></script><script src="/experience-detail.js" defer></script>
+<script src="/sg-gallery.js" defer></script><script src="/video-preview-v75.js" defer></script></body>
+</html>

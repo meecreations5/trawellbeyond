@@ -1,0 +1,29 @@
+/* Additive V7.5 travel guide and click-to-play media. V5.1 styles remain unchanged. */
+.tb-guide{padding-block:clamp(55px,8vw,120px);color:#1d1d1b}
+.tb-guide-header{display:grid;grid-template-columns:1fr 2fr;gap:36px;align-items:start;margin-bottom:32px}
+.tb-guide-eyebrow,.tb-guide-label{font-family:Manrope,Arial,sans-serif;font-size:10px;letter-spacing:.17em;text-transform:uppercase;color:#b95119;font-weight:750}
+.tb-guide-header h2,.tb-video-copy h2{font-size:clamp(36px,5vw,68px);line-height:1.04;letter-spacing:-.06em;font-weight:450;margin:9px 0 0}
+.tb-guide-header em,.tb-video-copy em{font-family:Lora,Georgia,serif;font-weight:400;letter-spacing:-.03em}
+.tb-guide-header>p{font-size:14px;line-height:1.85;max-width:520px;color:#616365;margin:8px 0}
+.tb-guide-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid #e5e5e2;border-left:1px solid #e5e5e2}
+.tb-guide-card{padding:26px 24px 29px;border-right:1px solid #e5e5e2;border-bottom:1px solid #e5e5e2;min-width:0}
+.tb-guide-card h3{font-family:Manrope,Arial,sans-serif;font-size:13px;font-weight:700;margin:11px 0}
+.tb-guide-card p{font-family:Manrope,Arial,sans-serif;font-size:13px;line-height:1.75;color:#626a6a;margin:0;white-space:pre-line;overflow-wrap:anywhere}
+.tb-guide-sources{display:flex;gap:10px 23px;align-items:center;flex-wrap:wrap;margin-top:24px;font-family:Manrope,Arial,sans-serif;font-size:11px}
+.tb-guide-sources a{color:#aa4e17;text-decoration:underline;text-underline-offset:3px}
+.tb-guide-sources small{color:#6a7272;letter-spacing:.01em}
+.tb-visit{padding-block:40px 90px;color:#1d1d1b}
+.tb-visit .tb-guide-header{grid-template-columns:1fr 1.25fr}
+.tb-visit .tb-guide-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.tb-video{padding-block:clamp(42px,6vw,95px);display:grid;grid-template-columns:minmax(0,1.45fr) minmax(260px,.7fr);gap:clamp(20px,5vw,72px);align-items:center}
+.tb-video-poster{aspect-ratio:16/9;position:relative;background:#142019;overflow:hidden;display:grid;place-items:center}
+.tb-video-poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.75}
+.tb-video-poster:after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,#1118,#1110)}
+.tb-video-play{border:1px solid #fff9;border-radius:999px;width:96px;height:96px;position:relative;z-index:2;background:#111a;color:#fff;cursor:pointer;font:600 12px Manrope,Arial,sans-serif;letter-spacing:.06em;backdrop-filter:blur(3px)}
+.tb-video-play:hover,.tb-video-play:focus-visible{background:#d55d16;border-color:#fff}
+.tb-video-frame{width:100%;height:100%;position:absolute;inset:0;border:0;z-index:3}
+.tb-video-copy p{font:13px/1.8 Manrope,Arial,sans-serif;color:#626a6a}
+.tb-video-copy a{font:600 11px/1.5 Manrope,Arial,sans-serif;color:#b54d16;text-underline-offset:4px}
+@media(max-width:900px){.tb-guide-header,.tb-visit .tb-guide-header{grid-template-columns:1fr;gap:10px}.tb-guide-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tb-video{grid-template-columns:1fr}}
+@media(max-width:580px){.tb-guide-grid,.tb-visit .tb-guide-grid{grid-template-columns:1fr}.tb-guide-card{padding:21px 19px}.tb-video-play{width:75px;height:75px}.tb-guide{padding-block:52px}.tb-visit{padding-block:30px 65px}}
+@media(prefers-reduced-motion:reduce){.tb-video-play{transition:none}}

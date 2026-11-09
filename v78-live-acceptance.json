@@ -1,0 +1,70 @@
+{
+  "base": "http://localhost:3000",
+  "checkedAt": "2026-11-08T21:23:09.189Z",
+  "passed": 0,
+  "total": 8,
+  "results": [
+    {
+      "title": "Dubai",
+      "url": "http://localhost:3000/destinations/dubai",
+      "kind": "Destination",
+      "passed": false,
+      "error": "fetch failed"
+    },
+    {
+      "title": "Thailand",
+      "url": "http://localhost:3000/destinations/thailand",
+      "kind": "Destination",
+      "passed": false,
+      "error": "fetch failed"
+    },
+    {
+      "title": "Burj Khalifa",
+      "url": "http://localhost:3000/experiences/burj-khalifa-observation-deck",
+      "kind": "Experience",
+      "passed": false,
+      "error": "fetch failed"
+    },
+    {
+      "title": "Dubai Frame",
+      "url": "http://localhost:3000/experiences/dubai-frame",
+      "kind": "Experience",
+      "passed": false,
+      "error": "fetch failed"
+    },
+    {
+      "title": "The Grand Palace",
+      "url": "http://localhost:3000/experiences/the-grand-palace-wat-phra-kaew",
+      "kind": "Experience",
+      "passed": false,
+      "error": "fetch failed"
+    },
+    {
+      "title": "Phi Phi",
+      "url": "http://localhost:3000/experiences/phi-phi-islands-boat-excursion",
+      "kind": "Experience",
+      "passed": false,
+      "error": "fetch failed"
+    },
+    {
+      "title": "Dubai, Beyond the Skyline",
+      "url": "http://localhost:3000/journeys/dubai-beyond-the-skyline",
+      "kind": "Journey",
+      "passed": false,
+      "error": "fetch failed"
+    },
+    {
+      "title": "Bangkok & Pattaya",
+      "url": "http://localhost:3000/journeys/bangkok-and-pattaya-your-way",
+      "kind": "Journey",
+      "passed": false,
+      "error": "fetch failed"
+    }
+  ],
+  "manualRequired": [
+    "Images and rights",
+    "Mobile layouts",
+    "Videos",
+    "CREATE and enquiry in Admin"
+  ]
+}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#FFFFFF" />
+<meta name="description" content="TrawellBeyond — Travel, Journeys & Experiences. Explore places, discover thoughtful journeys and create travel around you." />
+<title>TrawellBeyond — Created Around You | Motion Edition V4.2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="motion.css" />
+<link rel="stylesheet" href="/global-footer.css" />
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<div class="top-note"><span id="tbTopLeft">Travel • Journeys • Experiences</span><span id="tbTopRight">A DreamTrawell Destination Venture</span></div>
+<header class="site-header" id="top">
+  <a href="/" class="logo-link" aria-label="TrawellBeyond home"><img src="assets/trawellbeyond-display.svg" alt="TrawellBeyond" /></a>
+  <nav class="desktop-nav" id="tbDesktopNav" aria-label="Primary navigation"><a href="/destinations">Destinations</a><a href="/experiences">Experiences</a><a href="/journeys">Journeys</a><a href="/our-story">Our Story</a><a href="/contact">Contact</a></nav>
+  <button class="header-create" data-action="builder"><span id="tbHeaderCta">CREATE a journey</span> <span aria-hidden="true">↗</span></button>
+  <button id="mobileMenuBtn" class="mobile-menu-btn" aria-label="Open navigation" aria-expanded="false"><span></span><span></span></button>
+</header>
+<div id="mobileMenu" class="mobile-menu" hidden>
+  <nav aria-label="Mobile navigation" id="tbMobileNav"><a href="/destinations">Destinations</a><a href="/experiences">Experiences</a><a href="/journeys">Journeys</a><a href="/our-story">Our Story</a><a href="/contact">Contact</a><button data-action="builder">CREATE your journey</button></nav>
+  <div class="mobile-menu-foot">CREATED AROUND YOU.</div>
+</div>
+<main>
+<section class="hero" aria-labelledby="heroTitle">
+  <div class="hero-photo photo" style="--photo: url('https://images.unsplash.com/photo-1500534623283-312aade485b7?w=2000&q=85');--fallback: url('assets/hero-fallback.svg')"></div>
+  <div class="hero-grain" aria-hidden="true"></div>
+  <div class="hero-upper"><span class="small-line"></span> TRAVEL IS ABOUT PEOPLE <span class="hero-number">01 / 04</span></div>
+  <div class="hero-inner">
+    <span class="eyebrow hero-eyebrow">TRAWELLBEYOND · CREATED AROUND YOU</span>
+    <h1 id="heroTitle"><span class="hero-line"><span>The world is wide.</span></span><span class="hero-line"><span><em>Your journey</em></span></span><span class="hero-line"><span>is personal.</span></span></h1>
+    <div class="hero-bottom"><p>Wherever life takes you, we help create a journey that feels like your own.</p><div class="hero-actions"><a href="#discover" class="circle-arrow" aria-label="Discover how to begin"><span>↓</span></a><span>BEGIN YOUR STORY</span></div></div>
+  </div>
+  <div class="hero-side">PEOPLE FIRST. DESTINATION SECOND.</div>
+  <div class="hero-ground"><span>EXPLORE · CREATE · EXPERIENCE</span><span>SCROLL TO DISCOVER <span aria-hidden="true">↓</span></span></div>
+</section>
+
+<section class="entry section-wrap" id="discover" aria-labelledby="entryTitle">
+  <div class="entry-intro"><span class="eyebrow dark-eyebrow">01 / WHERE TO BEGIN</span><h2 id="entryTitle">Every journey<br/>begins <em>differently.</em></h2><p>Some begin with a place. Others, with a feeling. Tell us what matters and discover a way to make it yours.</p></div>
+  <div class="entry-options" role="group" aria-label="Choose how to begin">
+    <button class="entry-tile active" data-path="place"><span class="entry-index">01</span><span class="tile-main">I have a <em>place</em></span><span class="tile-meta">Explore destinations <span>↗</span></span></button>
+    <button class="entry-tile" data-path="purpose"><span class="entry-index">02</span><span class="tile-main">I have a <em>reason</em></span><span class="tile-meta">Find your travel style <span>↗</span></span></button>
+    <button class="entry-tile" data-path="package"><span class="entry-index">03</span><span class="tile-main">I found a <em>journey</em></span><span class="tile-meta">Make a package yours <span>↗</span></span></button>
+    <button class="entry-tile" data-path="create"><span class="entry-index">04</span><span class="tile-main">I have an <em>idea</em></span><span class="tile-meta">Create from scratch <span>↗</span></span></button>
+  </div>
+  <div class="entry-response" id="entryResponse"><span class="response-tag">EXPLORE BY PLACE</span><span id="entryResponseText">There's a place on your mind. Let's begin there.</span><button id="entryResponseBtn">Explore destinations <span>↗</span></button></div>
+</section>
+
+<section class="manifesto section-wrap" id="story"><div class="manifesto-kicker"><span class="eyebrow dark-eyebrow">A DIFFERENT WAY TO THINK ABOUT TRAVEL</span><span class="scribble" aria-hidden="true">✳</span></div><div class="manifesto-body"><h2>It's not simply <em>where</em><br/>you go. It's <em>what the<br/>journey becomes.</em></h2><div class="manifesto-aside"><p>Travel can mean a first glimpse of snow, a long-awaited family reunion, a quiet escape or simply getting somewhere you need to be.</p><p>We begin by understanding you. Then we help create what comes next.</p><span class="signature">Understand. Create. Experience.</span></div></div></section>
+
+<!-- Motion chapter: a story-led, scroll-pinned experience inspired by the interaction language, not the artwork, of the Red Dot reference. -->
+<section class="motion-story" id="moments" aria-label="The journeys that become our stories">
+  <div class="motion-story__sticky">
+    <div class="motion-story__intro" aria-hidden="true">MOMENTS / STORIES / MEMORIES</div>
+    <div class="motion-story__scenes">
+      <article class="motion-scene is-current" data-scene="0" aria-hidden="false">
+        <div class="motion-scene__photo" style="--frame-image:url('https://images.unsplash.com/photo-1530789253388-582c481c54b0?w=2100&q=86');--frame-fallback:url('assets/coast-fallback.svg')"></div>
+        <div class="motion-scene__shade"></div>
+        <div class="motion-scene__copy"><span class="motion-scene__eyebrow">01 / MOMENTS</span><h2>Sometimes it starts<br/>with <em>a feeling.</em></h2><p>More time together. A long-overdue escape. A moment worth remembering.</p></div>
+        <span class="motion-scene__place">A JOURNEY IS MORE THAN A DESTINATION</span>
+      </article>
+      <article class="motion-scene" data-scene="1" aria-hidden="true">
+        <div class="motion-scene__photo" style="--frame-image:url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=2100&q=86');--frame-fallback:url('assets/hills-fallback.svg')"></div>
+        <div class="motion-scene__shade"></div>
+        <div class="motion-scene__copy"><span class="motion-scene__eyebrow">02 / STORIES</span><h2>Sometimes, a place<br/><em>calls you.</em></h2><p>A new horizon, a familiar street, a story you have been waiting to live.</p></div>
+        <span class="motion-scene__place">DISCOVER WHAT THE JOURNEY COULD BECOME</span>
+      </article>
+      <article class="motion-scene" data-scene="2" aria-hidden="true">
+        <div class="motion-scene__photo" style="--frame-image:url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=2100&q=86');--frame-fallback:url('assets/hero-fallback.svg')"></div>
+        <div class="motion-scene__shade"></div>
+        <div class="motion-scene__copy"><span class="motion-scene__eyebrow">03 / MEMORIES</span><h2>And every journey<br/>begins <em>with you.</em></h2><p>We listen to what matters, then thoughtfully create the way forward.</p></div>
+        <span class="motion-scene__place">CREATED AROUND YOU.</span>
+      </article>
+    </div>
+    <div class="motion-story__footer"><span>KEEP SCROLLING TO EXPLORE</span><div class="motion-story__numbers"><span id="motionSceneNum">01</span><span class="motion-story__divider"></span><span>03</span></div><div class="motion-story__track"><div id="motionStoryBar"></div></div></div>
+    <div class="motion-story__dots" aria-label="Story chapters"><button class="is-current" aria-label="Go to moment one" data-story-dot="0" aria-current="true"></button><button aria-label="Go to moment two" data-story-dot="1"></button><button aria-label="Go to moment three" data-story-dot="2"></button></div>
+  </div>
+</section>
+<div class="motion-marquee" aria-label="Moments, stories and memories"><div class="motion-marquee__track" aria-hidden="true"><span>MOMENTS <i>✳</i> STORIES <i>✳</i> MEMORIES <i>✳</i> CREATED AROUND YOU <i>✳</i></span><span>MOMENTS <i>✳</i> STORIES <i>✳</i> MEMORIES <i>✳</i> CREATED AROUND YOU <i>✳</i></span></div></div>
+<section class="destinations-section" id="destinations" aria-labelledby="destTitle">
+  <div class="section-wrap"><div class="section-header"><div><span class="eyebrow dark-eyebrow">02 / GO SOMEWHERE</span><h2 id="destTitle">Places that<br/><em>open possibilities.</em></h2></div><div class="section-header-right"><p>Across India and around the world, the places you know and the ones you've yet to discover.</p><div class="segmented" role="group" aria-label="Destination category"><button class="active" data-region="international">Around the world</button><button data-region="domestic">Closer to home</button></div></div></div>
+  <div class="destination-editorial" id="destinationGrid">
+    <button class="destination-big photo" id="destinationBig" style="--photo:url('https://images.unsplash.com/photo-1533105079780-92b9be482077?w=1100&q=85');--fallback:url('assets/coast-fallback.svg')" data-destination="Turkey"><span class="photo-shade"></span><span class="place-index">01 / FEATURED PLACE</span><span class="place-copy"><span class="place-region">TÜRKIYE</span><strong>Turkey</strong><span class="place-learn">Explore the possibilities <i>↗</i></span></span></button>
+    <div class="destination-side"><button class="destination-small photo" id="destinationSmallOne" style="--photo:url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1000&q=80');--fallback:url('assets/hills-fallback.svg')" data-destination="Sri Lanka"><span class="photo-shade"></span><span class="small-place-copy"><span>02 / DISCOVER</span><strong>Sri Lanka</strong><i>↗</i></span></button><button class="destination-small photo" id="destinationSmallTwo" style="--photo:url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1000&q=80');--fallback:url('assets/city-fallback.svg')" data-destination="Singapore"><span class="photo-shade"></span><span class="small-place-copy"><span>03 / DISCOVER</span><strong>Singapore</strong><i>↗</i></span></button></div>
+  </div>
+  <div class="destination-foot"><span>8 INTERNATIONAL DESTINATION ENTRIES &nbsp;·&nbsp; 12 ACROSS INDIA</span><button class="text-link" data-action="all-destinations">Explore all 20 destinations <span>↗</span></button></div></div>
+</section>
+
+<section class="journeys-section" id="journeys" aria-labelledby="journeysTitle"><div class="section-wrap"><div class="section-header journeys-heading"><div><span class="eyebrow dark-eyebrow">03 / START WITH AN IDEA</span><h2 id="journeysTitle">Journeys, <em>thoughtfully</em><br/>put together.</h2></div><div class="section-header-right"><p>Explore a starting point, then adjust the details to make it your own. No two journeys need to feel the same.</p><div class="slider-controls"><button id="prevJourney" aria-label="Previous journeys">←</button><button id="nextJourney" aria-label="Next journeys">→</button></div></div></div>
+  <div class="journey-rail" id="journeyRail" aria-label="Featured sample journeys">
+    <article class="journey-card"><button class="journey-img photo" data-package="sri" style="--photo:url('https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=1000&q=82');--fallback:url('assets/coast-fallback.svg')"><span class="image-chip">CURATED JOURNEY</span><span class="photo-arrow">↗</span></button><div class="journey-card-meta"><span>SRI LANKA · 7 NIGHTS</span><span>CULTURE & NATURE</span></div><h3>A little closer to nature.</h3><div class="journey-card-bottom"><span>A journey through places and moments</span><button data-package="sri">Make it mine <span>↗</span></button></div></article>
+    <article class="journey-card"><button class="journey-img photo" data-package="kashmir" style="--photo:url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=1000&q=82');--fallback:url('assets/hills-fallback.svg')"><span class="image-chip">CURATED JOURNEY</span><span class="photo-arrow">↗</span></button><div class="journey-card-meta"><span>KASHMIR · 5 NIGHTS</span><span>FAMILY & SCENERY</span></div><h3>Moments in the mountains.</h3><div class="journey-card-bottom"><span>Unhurried days and shared memories</span><button data-package="kashmir">Make it mine <span>↗</span></button></div></article>
+    <article class="journey-card"><button class="journey-img photo" data-package="singapore" style="--photo:url('https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=1000&q=82');--fallback:url('assets/city-fallback.svg')"><span class="image-chip">CURATED JOURNEY</span><span class="photo-arrow">↗</span></button><div class="journey-card-meta"><span>SINGAPORE · 3 NIGHTS</span><span>CITY & EXPERIENCES</span></div><h3>A city full of firsts.</h3><div class="journey-card-bottom"><span>Iconic sights, with room to discover</span><button data-package="singapore">Make it mine <span>↗</span></button></div></article>
+    <article class="journey-card"><button class="journey-img photo" data-package="kerala" style="--photo:url('https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1000&q=82');--fallback:url('assets/coast-fallback.svg')"><span class="image-chip">CURATED JOURNEY</span><span class="photo-arrow">↗</span></button><div class="journey-card-meta"><span>KERALA · 5 NIGHTS</span><span>WELLNESS & FAMILY</span></div><h3>Time to slow things down.</h3><div class="journey-card-bottom"><span>Green landscapes, slower mornings</span><button data-package="kerala">Make it mine <span>↗</span></button></div></article>
+  </div><div class="journey-disclaimer">Sample journeys for design review. Final availability, package content, duration and pricing require approval before publishing.</div></div></section>
+
+<section class="purpose-section section-wrap" id="purpose" aria-labelledby="purposeTitle"><div class="purpose-left"><span class="eyebrow dark-eyebrow">04 / TRAVEL WITH A PURPOSE</span><h2 id="purposeTitle">What do you want<br/>this journey to <em>do</em><br/>for you?</h2><p>There isn't just one way to travel. Choose what matters most and we'll help you explore where it might lead.</p><span class="purpose-footnote">PEOPLE FIRST. DESTINATION SECOND.</span></div><div class="purpose-right"><div class="purpose-list" role="group" aria-label="Travel motivations"><button data-purpose="together" class="selected"><span class="purpose-num">01</span> Spend time together <span class="purpose-icon">↗</span></button><button data-purpose="discover"><span class="purpose-num">02</span> Discover something new <span class="purpose-icon">↗</span></button><button data-purpose="celebrate"><span class="purpose-num">03</span> Celebrate a moment <span class="purpose-icon">↗</span></button><button data-purpose="recharge"><span class="purpose-num">04</span> Find space to recharge <span class="purpose-icon">↗</span></button><button data-purpose="meaning"><span class="purpose-num">05</span> Travel with meaning <span class="purpose-icon">↗</span></button></div><div class="purpose-result"><span class="purpose-label">A POSSIBLE DIRECTION</span><p id="purposeDescription">A few days away, comfortably paced, with space for the people who matter.</p><div><span id="purposePlaces">Kerala · Kashmir · Singapore</span><button id="purposeExplore">Explore this feeling ↗</button></div></div></div></section>
+
+<section class="create-section" id="create" aria-labelledby="createTitle"><div class="create-photo photo" style="--photo:url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1300&q=85');--fallback:url('assets/hills-fallback.svg')"><div class="create-photo-caption">WHAT IF YOUR NEXT JOURNEY STARTED HERE? <span>↗</span></div></div><div class="create-content"><span class="eyebrow">05 / YOUR IDEA. OUR POSSIBILITIES.</span><h2 id="createTitle">If the right journey<br/>doesn't exist,<br/><em>we create it.</em></h2><p>Have a destination in mind, a half-formed idea or something entirely different? Start shaping it yourself, or tell us what you're imagining.</p><div class="create-choice"><button data-action="builder"><span class="create-choice-num">01</span><span><strong>Build my journey</strong><small>Choose places, interests and travel days.</small></span><span>↗</span></button><button data-action="consult"><span class="create-choice-num">02</span><span><strong>Create it with us</strong><small>Tell us what matters. We'll take it from there.</small></span><span>↗</span></button></div><div class="create-signature">TELL US WHAT YOU HAVE IN MIND. WE'LL CREATE IT.</div></div></section>
+
+<section class="worlds-section section-wrap" id="worlds"><div class="worlds-heading"><span class="eyebrow dark-eyebrow">06 / THERE'S MORE THAN ONE WAY TO TRAVEL</span><h2>From everyday movement<br/>to <em>extraordinary moments.</em></h2><p>One travel relationship, created around different needs.</p></div><div class="worlds-list" id="worldsList"><button data-world="MOVE"><span>01</span><strong>MOVE</strong><small>Getting you there</small><b>↗</b></button><button data-world="STAY"><span>02</span><strong>STAY</strong><small>A place to belong</small><b>↗</b></button><button data-world="EXPLORE"><span>03</span><strong>EXPLORE</strong><small>More to discover</small><b>↗</b></button><button data-world="JOURNEY"><span>04</span><strong>JOURNEY</strong><small>Travel, your way</small><b>↗</b></button><button data-world="BELIEVE"><span>05</span><strong>BELIEVE</strong><small>Faith & wellness</small><b>↗</b></button><button data-world="CELEBRATE"><span>06</span><strong>CELEBRATE</strong><small>Moments worth marking</small><b>↗</b></button><button data-world="LEARN"><span>07</span><strong>LEARN</strong><small>Learning beyond walls</small><b>↗</b></button><button data-world="WORK"><span>08</span><strong>WORK</strong><small>Business & purpose</small><b>↗</b></button><button data-world="CREATE"><span>09</span><strong>CREATE</strong><small>Anything else you imagine</small><b>↗</b></button></div></section>
+
+<section class="closing"><div class="closing-inner section-wrap"><span class="eyebrow">YOUR NEXT CHAPTER STARTS HERE</span><h2>Where shall<br/><em>we begin?</em></h2><p>Some journeys are planned. Some begin with a conversation.</p><button data-action="consult">Tell us about your journey <span>↗</span></button></div></section>
+</main>
+<footer class="footer"><div class="footer-top"><img src="assets/trawellbeyond-display.svg" alt="TrawellBeyond"/><p id="tbFooterCopy">Travel &bull; Journeys &bull; Experiences<br/><span>Created Around You.</span></p></div><div class="footer-links" id="tbFooterLinks"><a href="/destinations">Destinations</a><a href="/experiences">Experiences</a><a href="/journeys">Journeys</a><a href="/our-story">Our Story</a><a href="/contact">Contact</a><a href="/faq">FAQs</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div><div class="footer-contact" id="tbFooterContact"><a href="/create">CREATE your journey &nearr;</a></div><div class="footer-bottom"><span id="tbFooterCompany">A DreamTrawell Destination Venture</span><span id="tbFooterBottom">Enquiry-led travel. No online payments.</span><a href="#top">Back to top &uarr;</a></div></footer>
+
+<div class="overlay" id="overlay" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
+  <div class="drawer-head"><div><span class="eyebrow dark-eyebrow" id="drawerEyebrow">TRAWELLBEYOND CREATE</span><h2 id="drawerTitle">Build your journey.</h2></div><button class="drawer-close" id="drawerClose" aria-label="Close panel">×</button></div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-footer"><span>Your journey, created around you.</span><button id="drawerPrimary">Continue <span>↗</span></button></div>
+</aside>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<div class="motion-cursor" id="motionCursor" aria-hidden="true"><span>DISCOVER ↗</span></div>
+<script src="/enquiry-bridge.bundle.js"></script>
+<script src="app.js"></script>
+<script src="motion.js"></script>
+<script src="home-routing.js"></script>
+</body>
+</html>

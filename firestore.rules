@@ -1,0 +1,95 @@
+rules_version = '2';
+service cloud.firestore {
+ match /databases/{database}/documents {
+  function signedIn() {return request.auth != null;}
+  function microsoft() {return signedIn() && request.auth.token.firebase.sign_in_provider == 'microsoft.com';}
+  function staffPath() {return /databases/$(database)/documents/teamUsers/$(request.auth.uid);}
+  function staff() {
+   return microsoft() && exists(staffPath())
+    && get(staffPath()).data.active == true
+    && get(staffPath()).data.role in ['admin','super_admin'];
+  }
+  function validType(t) {return t in ['destinations','experiences','journeys','offers','pages'];}
+  function validContent(t,id) {
+   return validType(t) && request.resource.data.slug == id
+     && request.resource.data.title is string && request.resource.data.title.size() >= 2
+     && request.resource.data.title.size() <= 160
+     && request.resource.data.summary is string && request.resource.data.summary.size() <= 500
+     && request.resource.data.status in ['draft','published']
+     && (request.resource.data.status != 'published' || request.resource.data.summary.size() > 0)
+     && request.resource.data.updatedBy == request.auth.uid
+     && request.resource.data.updatedAt is string
+     && (!request.resource.data.keys().hasAny(['imageVariants'])
+       || (request.resource.data.imageVariants is map && request.resource.data.imageVariants.size() <= 35))
+     && request.resource.data.keys().hasOnly([
+       'title','slug','summary','description','region','heroImage','photoCredit','photoLicense','photoSourceUrl',
+       'galleryImages','imageCredits','imageVariants','highlights','faqs','featured','destinationSlug','duration','openingHours','pickup','priceFrom',
+       'goodFor','journeyStyle','storyTitle1','storyBody1','storyImage1','storyTitle2','storyBody2','storyImage2','storyTitle3','storyBody3','storyImage3',
+       'purposeFirst','purposeFamily','purposeCouple','purposeExplorer','featuredExperienceSlugs','featuredJourneySlug',
+       'dropoff','ticketNotes','bestFor','inclusions','exclusions','seasonalNotes','officialUrl',
+       'travelLanguages','travelCurrency','travelTimeZone','travelWeather','travelTransport','travelFood','travelStay','travelEntry','travelEssentials',
+       'travelGuideUrl','travelTransportUrl','travelEntryUrl','travelVerifiedOn',
+       'locationAddress','nearestTransit','gettingThere','accessibilityNotes','visitorTips','mapUrl','visitSourceUrl','visitVerifiedOn',
+       'videoUrl','videoTitle','videoCredit','dayImages','journeyStoryTitle','journeyGoodFor','journeyInterests','includedNotes','toConfirmNotes',
+       'currency','days','nights','itinerary','validUntil','homeHeroLine1','homeHeroAccent','homeHeroLine3',
+       'homeEntryTitle','homeEntryLead','homeManifestoTitle','homeManifestoLead','homeDestinationsTitle',
+       'homeDestinationsLead','homeJourneysTitle','homeJourneysLead','homePurposeTitle','homePurposeLead',
+       'homeCreateTitle','homeCreateLead','homeCreateImage','homeClosingTitle','homeClosingLead',
+       'homeMomentTitle1','homeMomentLead1','homeMomentImage1','homeMomentTitle2','homeMomentLead2','homeMomentImage2','homeMomentTitle3','homeMomentLead3','homeMomentImage3','homeWorldsTitle','homeWorldsLead',
+       'siteTopLeft','siteTopRight','siteNavLinks','siteHeaderCta','siteFooterLine1','siteFooterLine2','siteFooterCompany','siteFooterBottom','siteFooterEmail','siteFooterPhone','siteFooterLinks','siteFooterCta',
+       'status','createdAt','updatedAt','updatedBy','publishedAt'
+     ]);
+  }
+  function coverReady(t) {
+   return t == 'pages' || (request.resource.data.heroImage is string && request.resource.data.heroImage.matches('https://.*'));
+  }
+  // Existing teamUsers documents are preserved. Nobody can grant themselves access.
+  match /teamUsers/{uid} {
+   allow get: if signedIn() && request.auth.uid == uid || staff();
+   allow list: if staff();
+   allow create,update,delete: if false;
+  }
+  match /cms/{type}/items/{id} {
+   allow get, list: if validType(type) && (staff() || resource.data.status == 'published');
+   allow create: if staff() && validContent(type,id) && (request.resource.data.status != 'published' || coverReady(type));
+   allow update: if staff() && validContent(type,id) && request.resource.data.createdAt == resource.data.createdAt
+     && (resource.data.status == 'published' || request.resource.data.status != 'published' || coverReady(type));
+   allow delete: if staff() && validType(type);
+  }
+  match /cms/media/items/{id} {
+   allow get,list: if staff();
+   allow create: if staff()
+     && request.resource.data.createdBy == request.auth.uid
+     && request.resource.data.path is string
+     && request.resource.data.path.matches('cms-public/[A-Za-z0-9_-]+[.](jpg|png|webp)')
+     && request.resource.data.url is string
+     && request.resource.data.url.size() <= 1500
+     && request.resource.data.rightsConfirmed == true;
+   allow update,delete: if staff();
+  }
+  function validEnquiry(d) {
+    return signedIn()
+      && d.keys().hasOnly(['name','email','phone','destination','dates','travelers','purpose','notes','source','consent','status','createdAt'])
+      && d.keys().hasAll(['name','phone','consent','status','createdAt','source'])
+      && d.name is string && d.name.size() >= 2 && d.name.size() <= 120
+      && d.phone is string && d.phone.size() >= 7 && d.phone.size() <= 40
+      && d.email is string && d.email.size() <= 160
+      && d.destination is string && d.destination.size() <= 120
+      && d.notes is string && d.notes.size() <= 2500
+      && d.dates is string && d.dates.size() <= 160
+      && d.travelers is string && d.travelers.size() <= 50
+      && d.purpose is string && d.purpose.size() <= 160
+      && d.source in ['contact','create','enquiry']
+      && d.consent == true && d.status == 'new'
+      && d.createdAt == request.time;
+  }
+  match /enquiries/{id} {
+   allow create: if validEnquiry(request.resource.data);
+   allow get,list: if staff();
+   allow update: if staff() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','updatedAt'])
+     && request.resource.data.status in ['new','contacted','closed'];
+   allow delete: if false;
+  }
+  match /{document=**} {allow read,write: if false;}
+ }
+}

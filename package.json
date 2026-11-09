@@ -1,0 +1,31 @@
+{
+  "name": "trawellbeyond-v51-content-studio",
+  "version": "7.9.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "node --test tests/*.test.mjs",
+    "check:syntax": "node scripts/check-syntax.mjs",
+    "verify:frontend": "node scripts/verify-frontend-v51.mjs",
+    "check:config": "node scripts/check-firebase-config.mjs",
+    "bundle:enquiries": "node scripts/build-enquiry-bridge.mjs",
+    "predev": "npm run bundle:enquiries",
+    "prebuild": "npm run bundle:enquiries",
+    "check:singapore": "node scripts/check-live-singapore.mjs",
+    "check:v78": "node scripts/check-live-v78.mjs"
+  },
+  "dependencies": {
+    "firebase": "12.5.0",
+    "next": "16.4.5",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12"
+  }
+}
