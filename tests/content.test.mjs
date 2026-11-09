@@ -19,7 +19,8 @@ test('no Firebase Admin SDK dependency or server credentials required',()=>{
  assert.equal(pkg.dependencies['firebase-admin'],undefined);
  const rules=readFileSync('firestore.rules','utf8');
  assert.match(rules,/teamUsers/);assert.match(rules,/microsoft\.com/);
- assert.match(rules,/allow create,update,delete: if false/);
+ assert.match(rules,/allow create: if validInvitedMember\(uid\)/);
+ assert.match(rules,/allow delete: if false/);
  const storage=readFileSync('storage.rules','utf8');
  assert.match(storage,/firestore\.get/);
  assert.match(storage,/request\.resource\.size/);
@@ -27,6 +28,6 @@ test('no Firebase Admin SDK dependency or server credentials required',()=>{
 test('all customer enquiries require consent and are unreadable publicly',()=>{
  const rules=readFileSync('firestore.rules','utf8');
  assert.match(rules,/d\.consent == true/);
- assert.match(rules,/allow get,list: if staff\(\)/);
+ assert.match(rules,/allow get,list: if adminAccess\(\)/);
  assert.match(rules,/d\.createdAt == request\.time/);
 });

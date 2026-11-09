@@ -1,3 +1,17 @@
+# V7.9.2 — Team Content Studio + Automatic Photography (9 Nov 2026)
+
+**Images missing after import?** Use **Admin > Bulk Rollout > Automatic Image Completion** to scan actual Firestore records across all destinations, experiences and journeys; reuse approved Commons photos or import new WebP variants into empty **Draft** photo fields. Strong filename matches are only *suggestions* and all auto-attachments require a Publisher's visual approval. **Admin > Team & Access** lets the owner invite Content Editors, Media Assistants and Publishers by Microsoft email. Published pages and existing photos are never auto-overwritten. Update **both Firestore and Storage rules**. Nothing is uploaded or published just by installing this ZIP.
+
+**START HERE:** [`docs/V7_9_2_TEAM_PHOTOGRAPHY_RELEASE.md`](docs/V7_9_2_TEAM_PHOTOGRAPHY_RELEASE.md). This build is locally syntax/test checked, but its Next.js build, Firebase security and live image imports need validation in the user's connected environment.
+
+---
+
+# V7.9.1 Photo Completion Hotfix (9 Nov 2026)
+
+**Images missing after V7.9 import?** V7.9 installed 153 private editorial drafts but deliberately did not import real photos. This hotfix adds Admin → Bulk Rollout → **03 / Guided Photo Completion**: source Commons candidates for all 590 V7.9 image placements, manually review exact image/licence, import selected photos as WebP to Firebase Storage, and atomically attach only to blank Draft photo fields. Existing destination copy, galleries, already assigned media, publication status and Singapore/Dubai/Thailand are unchanged. **No photos are bundled or uploaded by this ZIP**, and Wikimedia/production Firebase availability is not certified. See [`docs/V7_9_1_PHOTO_COMPLETION_RELEASE.md`](docs/V7_9_1_PHOTO_COMPLETION_RELEASE.md).
+
+---
+
 # V7.9 — All Remaining Destinations & Bulk Publishing (9 Nov 2026)
 
 **START HERE:** [`docs/V7_9_ALL_DESTINATIONS_BULK_RELEASE.md`](docs/V7_9_ALL_DESTINATIONS_BULK_RELEASE.md). Build on V7.8 Dubai + Thailand, V7.7 Singapore and the approved V5.1 UI. Adds 17 destinations, 102 experience drafts and 34 journey drafts, all kept private until the Admin verifies real photos/licensing, time-sensitive travel facts and explicitly approves publication. New Admin → **Bulk Rollout V7.9** supports draft-only import, Firestore scan, readiness checks, editable content, review reports and selective batch publishing with a transaction.

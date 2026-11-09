@@ -4,6 +4,9 @@ import {REMAINING_STARTERS,REMAINING_COUNTS,REMAINING_DESTINATION_SLUGS,MEDIA_SE
 import {REMAINING_DESTINATIONS_DATA} from '@/lib/remaining-destinations-data.mjs';
 import {planBulkInstall,bulkReadiness,bulkSelectionForPublish} from '@/lib/bulk-rollout.mjs';
 import './bulk-rollout.css';
+import PhotoCompletion from './PhotoCompletion';
+import AutoPhotoCompletion from './AutoPhotoCompletion';
+import {canPublishContent,canCreateContent} from '@/lib/team-access.mjs';
 
 const priority=['destinations','experiences','journeys'];
 const getKey=(type,record)=>`${type}:${record.slug}`;
@@ -16,7 +19,7 @@ function exportCsv(rows){
  const blob=new Blob(['\ufeff',text],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob);
  const a=document.createElement('a');a.href=url;a.download='TrawellBeyond_V7_9_Review_Report.csv';document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);
 }
-export default function BulkRollout({request,onOpenEditor,onOpenMedia}){
+export default function BulkRollout({request,role,onOpenEditor,onOpenMedia}){
  const [selected,setSelected]=useState(REMAINING_DESTINATION_SLUGS);
  const [snapshot,setSnapshot]=useState(null),[busy,setBusy]=useState(false),[progress,setProgress]=useState(''),[error,setError]=useState(''),[result,setResult]=useState('');
  const [approved,setApproved]=useState({}),[rightsAcknowledged,setRightsAcknowledged]=useState(false),[expanded,setExpanded]=useState(''),[filter,setFilter]=useState('all');
@@ -37,7 +40,7 @@ export default function BulkRollout({request,onOpenEditor,onOpenMedia}){
  };
  const toggleDestination=slug=>{setSelected(prev=>prev.includes(slug)?prev.filter(x=>x!==slug):[...prev,slug]);setApproved({});setRightsAcknowledged(false);};
  async function install(){
-  if(!rollout||busy||!rollout.create.length)return;
+  if(!canCreateContent(role)||!rollout||busy||!rollout.create.length)return;
   if(!window.confirm(`Install ${rollout.create.length} new DRAFT records across ${selected.length} selected destinations? ${rollout.skipped.length} existing records will not be changed. No public content will be published.`))return;
   setBusy(true);setResult('');setError('');const status={created:0,skipped:rollout.skipped.length,failed:[]};
   try{
@@ -56,7 +59,7 @@ export default function BulkRollout({request,onOpenEditor,onOpenMedia}){
   finally{setBusy(false);setProgress('');}
  }
  async function publishSelected(){
-  if(busy||!canPublish.length||!rightsAcknowledged)return;
+  if(!canPublishContent(role)||busy||!canPublish.length||!rightsAcknowledged)return;
   const expected=`PUBLISH ${canPublish.length}`;
   const entered=window.prompt(`Final approval required. You are publishing ${canPublish.length} previously reviewed drafts to your public website. Type ${expected} to continue.`);
   if(entered!==expected)return;
@@ -87,24 +90,26 @@ export default function BulkRollout({request,onOpenEditor,onOpenMedia}){
   {snapshot&&<>
    <section className="br-section"><div className="br-head"><div><span>02 / IMPORT</span><h3>Draft preview</h3></div><b>{rollout.create.length} to create · {rollout.skipped.length} existing preserved</b></div>
     <p>Publishing, hero images, prices and video URLs are intentionally excluded from draft creation. Every imported record starts private, and rerunning this installation safely skips existing URL slugs.</p>
-    <div className="br-actions"><button className="a-btn a-primary" disabled={busy||!rollout.create.length} onClick={install}>Install {rollout.create.length} missing private drafts</button><span>Up to four protected draft creations per request group</span></div>
+    <div className="br-actions"><button className="a-btn a-primary" disabled={busy||!canCreateContent(role)||!rollout.create.length} onClick={install}>Install {rollout.create.length} missing private drafts</button><span>Up to four protected draft creations per request group</span></div>
    </section>
-   <section className="br-section"><div className="br-head"><div><span>03 / PHOTOGRAPHY &amp; CONTENT</span><h3>Assign real, licensed photographs</h3></div><button className="a-btn a-outline" onClick={onOpenMedia}>Open Media Library ↗</button></div>
+   <section className="br-section"><AutoPhotoCompletion request={request} snapshot={snapshot} onRefresh={scan} onOpenEditor={onOpenEditor}/></section>
+   <section className="br-section"><PhotoCompletion request={request} snapshot={snapshot} selected={selected} onRefresh={scan}/></section>
+   <section className="br-section"><div className="br-head"><div><span>04 / MANUAL PHOTO FALLBACK</span><h3>Assign real, licensed photographs</h3></div><button className="a-btn a-outline" onClick={onOpenMedia}>Open Media Library ↗</button></div>
     <p>No generated images are presented as real attractions. Use the existing Commons licence-review and WebP tools. Each destination needs a hero, three story images, a gallery, and appropriate experience and day-wise photographs.</p>
     <div className="br-media-list">{MEDIA_SEARCH_PLAN.filter(row=>selected.includes(row.destinationSlug)).map(row=>{
      const d=REMAINING_DESTINATIONS_DATA.find(x=>x.slug===row.destinationSlug);
      return <article key={row.destinationSlug} className="br-media-item"><button onClick={()=>setExpanded(expanded===row.destinationSlug?'':row.destinationSlug)} aria-expanded={expanded===row.destinationSlug}><b>{d.title}</b><span>{expanded===row.destinationSlug?'−':'+'} Photo search guidance</span></button>{expanded===row.destinationSlug&&<div className="br-media-detail">{[row.coverSearch,...row.storySearches,...row.gallerySearches].map((query,i)=><a href={`https://commons.wikimedia.org/w/index.php?search=${encodeURIComponent(query)}&title=Special:MediaSearch&type=image`} target="_blank" rel="noopener noreferrer" key={query}>{i===0?'Cover':i<=3?`Story ${i}`:`Gallery ${i-3}`}: {query} ↗</a>)}<p>Verify the exact subject, photographer, reuse terms, crop rights and required attribution. Then import the accepted asset in Media Library and assign it from the content editor.</p></div>}</article>;
     })}</div>
    </section>
-   <section className="br-section"><div className="br-head"><div><span>04 / READINESS &amp; REVIEW</span><h3>Content approval queue</h3></div><button className="a-btn a-outline" onClick={()=>exportCsv(allRows)}>Export review CSV</button></div>
+   <section className="br-section"><div className="br-head"><div><span>05 / READINESS &amp; REVIEW</span><h3>Content approval queue</h3></div><button className="a-btn a-outline" onClick={()=>exportCsv(allRows)}>Export review CSV</button></div>
     <div className="br-summary">{recordCounts.map(x=><div key={x.type}><b>{x.items.length}</b><span>{groupLabel[x.type]} loaded</span><small>{x.items.filter(r=>r.ready).length} ready for final review</small></div>)}</div>
     <label className="br-filter">Display<select value={filter} onChange={e=>setFilter(e.target.value)}><option value="all">All loaded records</option><option value="missing">Needs completion</option><option value="ready">Passes gate</option><option value="draft">Drafts only</option></select></label>
     <div className="br-rows">{visible.slice(0,300).map(row=>{const key=getKey(row.type,row.record),isDraft=row.record.status==='draft';return <article className="br-row" key={key}><div className="br-record"><div><span>{groupLabel[row.type]} · {row.record.destinationSlug||row.record.slug}</span><strong>{row.record.title}</strong><small>/{row.type}/{row.record.slug} · {row.record.status}</small></div><div className="br-record-actions"><b className={row.ready?'br-good':'br-warning'}>{row.ready?'Ready for review':`${row.missing.length} requirement(s)`}</b><button className="a-btn a-outline" onClick={()=>onOpenEditor(row.type,row.record)}>Edit &amp; verify ↗</button></div></div>{row.missing.length>0&&<p className="br-missing">Missing: {row.missing.join(' · ')}</p>}{row.ready&&isDraft&&<label className="br-approve"><input type="checkbox" checked={!!approved[key]} onChange={e=>setApproved(prev=>({...prev,[key]:e.target.checked}))}/> I reviewed this exact record and approve publication</label>}</article>})}</div>
    </section>
-   <section className="br-section br-publish"><div className="br-head"><div><span>05 / CONTROLLED PUBLISHING</span><h3>Publish selected approved records</h3></div><b>{canPublish.length} approved drafts</b></div>
+   <section className="br-section br-publish"><div className="br-head"><div><span>06 / CONTROLLED PUBLISHING</span><h3>Publish selected approved records</h3></div><b>{canPublish.length} approved drafts</b></div>
     <p>Only records passing all required content, licensing, gallery and date checks can be bulk-published. Destinations publish first. The live transaction checks for changes since review and blocks experiences or journeys whose destination is still private. New videos are optional; official sources must be checked before adding them.</p>
     <label className="br-consent"><input type="checkbox" checked={rightsAcknowledged} onChange={e=>setRightsAcknowledged(e.target.checked)}/> I reviewed the displayed records, media rights, accuracy of travel information and public presentation. I authorize publication of only the individually selected records.</label>
-    <div className="br-actions"><button className="a-btn a-primary" disabled={!rightsAcknowledged||!canPublish.length||busy} onClick={publishSelected}>Publish {canPublish.length} reviewed records</button><small>Final typed confirmation required · no unpublish or overwrite of existing published content</small></div>
+    <div className="br-actions"><button className="a-btn a-primary" disabled={!canPublishContent(role)||!rightsAcknowledged||!canPublish.length||busy} onClick={publishSelected}>Publish {canPublish.length} reviewed records</button><small>Final typed confirmation required · no unpublish or overwrite of existing published content</small></div>
    </section>
   </>}
   {progress&&<p role="status" className="br-progress">{progress}</p>}{result&&<p role="status" className="a-alert a-success">{result}</p>}{error&&<p role="alert" className="a-alert a-error">{error}</p>}

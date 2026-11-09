@@ -51,6 +51,13 @@ export function validateContent(type,raw,status='draft',{previouslyPublished=fal
  if(status==='published'&&!result.summary.trim())throw new Error('A short description is required to publish.');
  if(type==='experiences'&&status==='published'&&!result.destinationSlug)throw new Error('Choose a destination before publishing this experience.');
  if(status==='published'&&!previouslyPublished&&['destinations','experiences','journeys','offers'].includes(type)&&!result.heroImage)throw new Error('Choose a cover photograph before publishing. You can save your content as a Draft without photos.');
+ // Auto-imported image matches must be reviewed before they become public.
+ const review=String(raw.mediaReviewStatus||'');
+ if(!['','pending','approved'].includes(review))throw new Error('Invalid photograph review status.');
+ result.mediaReviewStatus=review;
+ result.mediaReviewedBy=String(raw.mediaReviewedBy||'').slice(0,200);
+ result.mediaReviewedAt=String(raw.mediaReviewedAt||'').slice(0,80);
+ if(status==='published'&&review==='pending')throw new Error('Review automatically imported photographs before publishing.');
  return {...result,status};
 }
 export function typePath(type){

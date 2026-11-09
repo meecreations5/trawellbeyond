@@ -8,6 +8,7 @@ const photos=value=>String(value||'').split(/\r?\n/).map(s=>s.trim()).filter(Boo
 const ownRights=value=>/\b(owned|original photograph|licensed to trawellbeyond|owned by)\b/i.test(String(value||''));
 export function bulkReadiness(type,record,now=new Date()){
  const missing=[];
+ if(record.mediaReviewStatus==='pending')missing.push('Automatic images need publisher visual review');
  const require=(condition,label)=>{if(!condition)missing.push(label);};
  require(CONTENT_TYPES.includes(type),'Known content type');
  require(present(record?.title)&&present(record?.summary)&&present(record?.description),'Complete editorial text');

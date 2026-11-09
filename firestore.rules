@@ -4,10 +4,72 @@ service cloud.firestore {
   function signedIn() {return request.auth != null;}
   function microsoft() {return signedIn() && request.auth.token.firebase.sign_in_provider == 'microsoft.com';}
   function staffPath() {return /databases/$(database)/documents/teamUsers/$(request.auth.uid);}
+  function invitePath() {return /databases/$(database)/documents/teamInvites/$(request.auth.token.email.lower());}
   function staff() {
-   return microsoft() && exists(staffPath())
-    && get(staffPath()).data.active == true
-    && get(staffPath()).data.role in ['admin','super_admin'];
+   return microsoft() && exists(staffPath()) && get(staffPath()).data.active == true
+    && get(staffPath()).data.role in ['super_admin','admin','publisher','editor','media'];
+  }
+  function role() {return get(staffPath()).data.role;}
+  function owner() {return staff() && role() == 'super_admin';}
+  function publisher() {return staff() && role() in ['super_admin','admin','publisher'];}
+  function copyEditor() {return staff() && role() in ['super_admin','admin','publisher','editor'];}
+  function mediaEditor() {return staff();}
+  function adminAccess() {return staff() && role() in ['super_admin','admin'];}
+  // Photo changes by any non-publisher must invalidate earlier photo approval.
+  // Checking rules, not just client buttons, prevents direct Firebase SDK bypasses.
+  function photoFieldsChanged() {
+   return request.resource.data.diff(resource.data).affectedKeys().hasAny([
+    'heroImage','photoCredit','photoLicense','photoSourceUrl','galleryImages','dayImages','imageCredits',
+    'imageVariants','storyImage1','storyImage2','storyImage3','homeCreateImage',
+    'homeMomentImage1','homeMomentImage2','homeMomentImage3'
+   ]);
+  }
+  function mediaOnlyChanges() {
+   return resource.data.status == 'draft' && request.resource.data.status == 'draft'
+    && (request.resource.data.get('mediaReviewStatus','') == 'pending'
+      || (!photoFieldsChanged() && resource.data.get('mediaReviewStatus','') == ''
+          && request.resource.data.get('mediaReviewStatus','') == ''))
+    && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+     'heroImage','photoCredit','photoLicense','photoSourceUrl','galleryImages','dayImages','imageCredits',
+     'imageVariants','storyImage1','storyImage2','storyImage3','homeCreateImage',
+     'homeMomentImage1','homeMomentImage2','homeMomentImage3',
+     'mediaReviewStatus','mediaReviewedAt','mediaReviewedBy','updatedAt','updatedBy'
+    ]);
+  }
+  function memberCanUpdate() {
+   return (publisher() ||
+     (staff() && role() == 'editor' && resource.data.status == 'draft' && request.resource.data.status == 'draft'
+       && (request.resource.data.get('mediaReviewStatus','') == resource.data.get('mediaReviewStatus','') || request.resource.data.get('mediaReviewStatus','') == 'pending')
+       && (!photoFieldsChanged() || request.resource.data.get('mediaReviewStatus','') == 'pending')
+       && (resource.data.get('mediaReviewStatus','') != 'pending' || request.resource.data.get('mediaReviewStatus','') == 'pending')) ||
+     (staff() && role() == 'media' && mediaOnlyChanges()));
+  }
+  function inviteValid(email) {
+   return request.resource.data.keys().hasOnly(['email','role','active','createdAt','createdBy','updatedAt','updatedBy'])
+    && request.resource.data.keys().hasAll(['email','role','active','createdAt','createdBy','updatedAt','updatedBy'])
+    && email.matches('[^ /@]+@[^ /@]+[.][^ /@]+')
+    && request.resource.data.email == email
+    && request.resource.data.role in ['publisher','editor','media']
+    && request.resource.data.active is bool
+    && request.resource.data.createdAt is string
+    && request.resource.data.updatedAt is string
+    && request.resource.data.createdBy is string
+    && request.resource.data.updatedBy == request.auth.uid;
+  }
+  function validInvitedMember(uid) {
+   return microsoft() && uid == request.auth.uid
+    && request.auth.token.email is string
+    && exists(invitePath())
+    && get(invitePath()).data.active == true
+    && get(invitePath()).data.role in ['publisher','editor','media']
+    && request.resource.data.keys().hasOnly(['email','name','role','active','createdAt','createdBy'])
+    && request.resource.data.keys().hasAll(['email','name','role','active','createdAt','createdBy'])
+    && request.resource.data.email == request.auth.token.email.lower()
+    && request.resource.data.name is string && request.resource.data.name.size() <= 120
+    && request.resource.data.role == get(invitePath()).data.role
+    && request.resource.data.active == true
+    && request.resource.data.createdBy == 'invitation'
+    && request.resource.data.createdAt is string;
   }
   function validType(t) {return t in ['destinations','experiences','journeys','offers','pages'];}
   function validContent(t,id) {
@@ -19,6 +81,7 @@ service cloud.firestore {
      && (request.resource.data.status != 'published' || request.resource.data.summary.size() > 0)
      && request.resource.data.updatedBy == request.auth.uid
      && request.resource.data.updatedAt is string
+     && request.resource.data.get('mediaReviewStatus','') in ['', 'pending','approved']
      && (!request.resource.data.keys().hasAny(['imageVariants'])
        || (request.resource.data.imageVariants is map && request.resource.data.imageVariants.size() <= 35))
      && request.resource.data.keys().hasOnly([
@@ -37,35 +100,59 @@ service cloud.firestore {
        'homeCreateTitle','homeCreateLead','homeCreateImage','homeClosingTitle','homeClosingLead',
        'homeMomentTitle1','homeMomentLead1','homeMomentImage1','homeMomentTitle2','homeMomentLead2','homeMomentImage2','homeMomentTitle3','homeMomentLead3','homeMomentImage3','homeWorldsTitle','homeWorldsLead',
        'siteTopLeft','siteTopRight','siteNavLinks','siteHeaderCta','siteFooterLine1','siteFooterLine2','siteFooterCompany','siteFooterBottom','siteFooterEmail','siteFooterPhone','siteFooterLinks','siteFooterCta',
+       'mediaReviewStatus','mediaReviewedBy','mediaReviewedAt',
        'status','createdAt','updatedAt','updatedBy','publishedAt'
      ]);
   }
   function coverReady(t) {
-   return t == 'pages' || (request.resource.data.heroImage is string && request.resource.data.heroImage.matches('https://.*'));
+   return (request.resource.data.get('mediaReviewStatus','') != 'pending') &&
+     (t == 'pages' || (request.resource.data.heroImage is string && request.resource.data.heroImage.matches('https://.*')));
   }
-  // Existing teamUsers documents are preserved. Nobody can grant themselves access.
+  // Owner invites by Microsoft email. A recipient can claim only their own UID,
+  // with exactly the role from their active invitation; no self-escalation.
+  match /teamInvites/{email} {
+   allow get: if owner() || (microsoft() && request.auth.token.email is string && email == request.auth.token.email.lower());
+   allow list: if owner();
+   allow create: if owner() && inviteValid(email) && request.resource.data.createdBy == request.auth.uid;
+   allow update: if owner() && inviteValid(email) && request.resource.data.createdAt == resource.data.createdAt
+     && request.resource.data.createdBy == resource.data.createdBy;
+   allow delete: if owner();
+  }
   match /teamUsers/{uid} {
-   allow get: if signedIn() && request.auth.uid == uid || staff();
-   allow list: if staff();
-   allow create,update,delete: if false;
+   allow get: if microsoft() && request.auth.uid == uid || owner();
+   allow list: if owner();
+   allow create: if validInvitedMember(uid);
+   allow update: if owner() && uid != request.auth.uid && resource.data.role != 'super_admin'
+     && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['role','active','updatedAt','updatedBy'])
+     && request.resource.data.role in ['admin','publisher','editor','media']
+     && request.resource.data.active is bool && request.resource.data.updatedBy == request.auth.uid
+     && request.resource.data.updatedAt is string;
+   allow delete: if false;
   }
   match /cms/{type}/items/{id} {
    allow get, list: if validType(type) && (staff() || resource.data.status == 'published');
-   allow create: if staff() && validContent(type,id) && (request.resource.data.status != 'published' || coverReady(type));
-   allow update: if staff() && validContent(type,id) && request.resource.data.createdAt == resource.data.createdAt
+   allow create: if copyEditor() && validContent(type,id)
+     && (request.resource.data.status == 'draft' || publisher())
+     && (request.resource.data.status != 'published' || coverReady(type));
+   allow update: if memberCanUpdate() && validContent(type,id)
+     && request.resource.data.createdAt == resource.data.createdAt
+     && (request.resource.data.status != 'published' || request.resource.data.get('mediaReviewStatus','') != 'pending')
      && (resource.data.status == 'published' || request.resource.data.status != 'published' || coverReady(type));
-   allow delete: if staff() && validType(type);
+   allow delete: if adminAccess() && validType(type);
   }
   match /cms/media/items/{id} {
    allow get,list: if staff();
-   allow create: if staff()
+   allow create: if mediaEditor()
      && request.resource.data.createdBy == request.auth.uid
      && request.resource.data.path is string
      && request.resource.data.path.matches('cms-public/[A-Za-z0-9_-]+[.](jpg|png|webp)')
      && request.resource.data.url is string
      && request.resource.data.url.size() <= 1500
      && request.resource.data.rightsConfirmed == true;
-   allow update,delete: if staff();
+   allow update: if mediaEditor() && request.resource.data.rightsConfirmed == true
+     && request.resource.data.createdBy == resource.data.createdBy
+     && request.resource.data.path == resource.data.path;
+   allow delete: if adminAccess();
   }
   function validEnquiry(d) {
     return signedIn()
@@ -85,8 +172,8 @@ service cloud.firestore {
   }
   match /enquiries/{id} {
    allow create: if validEnquiry(request.resource.data);
-   allow get,list: if staff();
-   allow update: if staff() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','updatedAt'])
+   allow get,list: if adminAccess();
+   allow update: if adminAccess() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','updatedAt'])
      && request.resource.data.status in ['new','contacted','closed'];
    allow delete: if false;
   }

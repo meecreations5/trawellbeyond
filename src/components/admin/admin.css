@@ -101,3 +101,5 @@
 .a-journey-media-audit p{font-size:12px;color:#5e6d60;line-height:1.6}
 .a-journey-media-audit .a-journey-media-counts{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0}
 .a-journey-media-audit .a-journey-media-counts span{padding:7px 9px;border:1px solid #d9e1db;background:#fff;font-size:11px}
+
+.a-photo-pending{border:1px solid #ead4b8;background:#fff7ea;padding:16px;border-radius:8px;margin:13px 0;display:grid;gap:8px}.a-photo-pending strong{color:#914816;font-size:14px}.a-photo-pending p{font-size:12px;line-height:1.6;color:#6c5948}.a-photo-pending button{justify-self:start}
