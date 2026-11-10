@@ -1,6 +1,6 @@
 {
   "name": "trawellbeyond-v51-content-studio",
-  "version": "7.9.2",
+  "version": "8.1.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -14,7 +14,11 @@
     "predev": "npm run bundle:enquiries",
     "prebuild": "npm run bundle:enquiries",
     "check:singapore": "node scripts/check-live-singapore.mjs",
-    "check:v78": "node scripts/check-live-v78.mjs"
+    "check:v78": "node scripts/check-live-v78.mjs",
+    "check:live:v80": "node scripts/check-live-v80.mjs",
+    "audit:media:v80": "node scripts/audit-v80-media.mjs",
+    "audit:motion:v81": "node scripts/audit-v81-motion.mjs",
+    "check:live:v81": "node scripts/check-live-v81.mjs"
   },
   "dependencies": {
     "firebase": "12.5.0",

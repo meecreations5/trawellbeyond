@@ -1,3 +1,33 @@
+# V8.1.1 — CREATE & Experience Highlights UX Correction (9 Nov 2026)
+
+**Start here:** [`docs/V8_1_1_CREATE_EXPERIENCE_UX.md`](docs/V8_1_1_CREATE_EXPERIENCE_UX.md). Focused UI polish on top of V8.1. Fixes overlapping orange CREATE progress styles, replaces destination-biased purpose-card photography with original people-first illustrations, and makes Experience Highlights an intentional two-column editorial layout with contextual photos when available. Includes a broken-photo fallback and mobile scroll treatment. Existing logo, Admin/CMS roles, Firestore/Storage rules, Journey draft data, and enquiry flows are unchanged.
+
+**Local checks:** 163/163 automated tests, JavaScript/JSX syntax checks, frontend asset audit and V8.1 motion audit pass. Isolated Chromium layout previews at 320, 390, 768, and 1440px show no horizontal overflow. **Next.js production build/live Firebase/media acceptance remain unverified** because package installation could not reach the npm registry in this environment.
+
+---
+
+# V8.1 Motion & Interaction Identity (9 Nov 2026)
+
+**Start here:** [`docs/V8_1_MOTION_IDENTITY_RELEASE.md`](docs/V8_1_MOTION_IDENTITY_RELEASE.md).
+
+Builds on V8.0.1 without changing the approved V4.2 layout, master/display logo SVGs, Admin/Firestore permissions or enquiry-only business model. Adds a first-session non-blocking logo reveal, exact orange-accent motif, Story/Philosophy/CREATE progress, Living Postcard navigation polish, immediate My Journey save/remove feedback and clear empty/error/confirmed states.
+
+**Local verification:** 157/157 automated tests, syntax and frontend audit pass. Isolated Chromium tests at six widths pass; **Next.js production build and live Firebase/media acceptance remain open** because dependency installation was unavailable in this environment. No new photographs are included.
+
+---
+
+**V8.0.1 Visual hotfix**: Journey detail logo resized slightly and destination Save/Explore actions separated and made responsive. See `docs/V8_0_1_DETAIL_UX_POLISH.md`.
+
+# TrawellBeyond V8.0 — Brand Experience Refinement
+
+**Baseline:** V7.9.2 Full Code, preserving V4.2 Motion Edition design and the approved SVG logo. This is an **enquiry-led website**; no checkout or payment functions were added.
+
+**Start here:** [V8.0 Release & Installation Guide](docs/V8_0_BRAND_EXPERIENCE_RELEASE.md) and [Live Acceptance Checklist](docs/V8_0_LIVE_ACCEPTANCE.md).
+
+**Local results:** 134 automated tests and JavaScript/JSX syntax checks pass. Frontend baseline markers pass. The Story CSS was reviewed at 320, 375, 390, 768, 1024 and 1440px in a Chromium layout preview. **Full Next.js production build and live Firebase/image acceptance have not been completed in this isolated environment** because dependencies could not be installed here.
+
+---
+
 # V7.9.2 — Team Content Studio + Automatic Photography (9 Nov 2026)
 
 **Images missing after import?** Use **Admin > Bulk Rollout > Automatic Image Completion** to scan actual Firestore records across all destinations, experiences and journeys; reuse approved Commons photos or import new WebP variants into empty **Draft** photo fields. Strong filename matches are only *suggestions* and all auto-attachments require a Publisher's visual approval. **Admin > Team & Access** lets the owner invite Content Editors, Media Assistants and Publishers by Microsoft email. Published pages and existing photos are never auto-overwritten. Update **both Firestore and Storage rules**. Nothing is uploaded or published just by installing this ZIP.
@@ -83,3 +113,8 @@ See `docs/V7_3_1_SINGAPORE_GALLERY_FIX.md` for the Singapore journey gallery whi
 The destination page now supports official-source Travel Essentials: language, currency, time zone, weather, public transport, dining, stay areas, arrival guidance and everyday tips. Experience pages support Plan Your Visit with location, transit, accessibility and verified operator sources. Approved YouTube links play only after the user selects Play. The content editor groups optional fields into expandable panels and can fill only missing Singapore guidance without overwriting published work.
 
 **Start here:** [V7.5 release + installation](docs/V7_5_SINGAPORE_KNOWLEDGE_VIDEO_RELEASE.md). New Firestore content fields require deploying `firestore.rules`; Storage rules are unchanged. No Firebase Admin SDK or database reset required.
+
+
+## V8.1.2 | Verified logo motion and CREATE CSS isolation
+
+This source patch adds a visible, first-session SVG reveal with a repeatable `?previewLogo=1` QA mode; isolates CREATE progress from conflicting older CSS; and adds DOM version markers for deployed-site verification. See `docs/V8_1_2_MOTION_AND_VISUAL_PARITY_AUDIT.md`. **This is not a completed production build or live-site acceptance.**

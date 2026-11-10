@@ -3,3 +3,64 @@
 
 /* V7.3: optional planning, fully inside the approved CREATE typography. */
 .cr-plan-option{margin-top:40px;border-top:1px solid #d5ddda;padding-top:25px}.cr-plan-option>div{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}.cr-plan-option button{padding:18px;text-align:left;border:1px solid #d5ddda;background:white;cursor:pointer}.cr-plan-option button.selected{border-color:#c15a26;background:#fff5ee}.cr-plan-option strong{display:block;font-size:13px;color:#2c3931}.cr-plan-option small{display:block;margin-top:5px;font-size:11px;color:#66716b}.cr-day-planner{margin-top:30px;background:#f7f8f6;padding:24px}.cr-assignments{display:grid;grid-template-columns:1fr 1fr;gap:14px}.cr-assignments label{font-size:11px;font-weight:700;color:#3b4841}.cr-assignments select{display:block;margin-top:8px;width:100%;padding:12px;background:#fff;border:1px solid #cdd7d0}.cr-day-list{margin-top:25px;display:grid;gap:10px}.cr-day-card{background:white;padding:18px;border:1px solid #d9e1db}.cr-day-card h4{font-size:11px;letter-spacing:.15em;color:#b45a29;margin:0 0 10px}.cr-day-card p{color:#75807a;font-size:12px}.cr-day-line{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid #e6e9e4;padding:10px 0;font-size:12px}.cr-day-line>div{display:flex;gap:6px}.cr-day-line button{border:1px solid #d6ddd8;background:white;padding:7px 11px;cursor:pointer}.cr-day-line button:disabled{opacity:.25;cursor:default}.cr-draft-actions{padding-top:24px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}.cr-draft-actions button{padding:8px 0;border:0;border-bottom:1px solid #b15a29;background:transparent;color:#a34922;font-size:12px;font-weight:800;cursor:pointer}.cr-draft-actions p{color:#64726b;font-size:12px;max-width:370px}@media(max-width:620px){.cr-plan-option>div,.cr-assignments{grid-template-columns:1fr}.cr-day-planner{padding:15px}}
+/* V8.0: a calm, clearly guided enquiry flow; no carousel or checkout. */
+.cr-studio{scroll-margin-top:16px}
+.cr-progress-meter{height:auto;background:transparent;margin-top:15px;overflow:visible}
+.cr-progress-meter .tb-v81-line-track{height:3px;background:#e5e9e5}.cr-progress-meter .tb-v81-line-fill{height:100%;background:#ff751f;transition:transform .32s cubic-bezier(.2,1,.2,1)}
+.cr-steps{margin-top:0}
+.cr-steps button{min-height:68px;transition:color .18s,background .18s,border-color .18s}
+.cr-steps button:not(:disabled):hover{background:#faf7f3;color:#b8511a}
+.cr-purposes button,.cr-destinations button,.cr-experiences button{transition:border-color .2s,box-shadow .2s,transform .23s}
+.cr-purposes button:hover,.cr-destinations button:hover,.cr-experiences button:hover{transform:translateY(-3px)}
+.cr-purposes button.selected::after,.cr-destinations button.selected::after,.cr-experiences button.selected::after{content:'✓ SELECTED';position:absolute;right:11px;top:12px;font:800 10px/1.5 Manrope,Arial,sans-serif;letter-spacing:.06em;color:#fff;background:#202824;padding:7px 9px}
+.cr-hero-photo{overflow:hidden}.cr-hero-photo img{transform:translate3d(0,var(--tb-parallax-offset,0px),0) scale(1.06);will-change:transform}
+.cr-destinations button img{background:#dfe7dd}
+.cr-workflow-note{margin:25px 0 0;color:#66766a;font-size:11px;line-height:1.75;max-width:670px;border-left:2px solid #d66c2c;padding-left:15px}
+.cr-selected button:hover,.cr-day-line button:not(:disabled):hover,.cr-counter button:not(:disabled):hover{background:#fff0e6;border-color:#c95f24}
+.cr-summary{scroll-margin-top:22px}
+.cr-next{transition:background .2s,transform .2s}.cr-next:not(:disabled):hover{background:#cf6027;transform:translateY(-2px)}
+@media(max-width:640px){.cr-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:3px;border:0;margin-bottom:40px}.cr-steps button{display:flex;align-items:center;font-size:11px;line-height:1.4;min-height:50px;background:#f7f8f5;padding:11px;border-top:2px solid transparent}.cr-steps button b{font-size:10px}.cr-steps button.active{background:#fff4eb;border-top-color:#ff751f}.cr-hero-photo img{transform:none;will-change:auto}.cr-purposes button:hover,.cr-destinations button:hover,.cr-experiences button:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.cr-hero-photo img{transform:none;will-change:auto}.cr-progress-meter .tb-v81-line-fill{transition:none}.cr-purposes button,.cr-destinations button,.cr-experiences button{transition:none}}
+
+/* V8.1.1 / CREATE: editorial four-step navigation, no conflicting nested span selectors. */
+.cr-studio .cr-v81-progress{min-height:3px;height:3px;margin:20px 0 14px!important;padding:0!important;overflow:visible!important}
+.cr-v81-progress .tb-v81-line-track{height:3px}
+.cr-steps{border:0;margin:0 0 clamp(36px,5vw,65px);gap:9px}
+.cr-steps button{display:flex;align-items:center;gap:10px;min-width:0;min-height:58px;padding:14px 12px;border:1px solid #e5e8e5;border-top:1px solid #e5e8e5;background:#fff;color:#77827d;font:600 11px/1.4 Manrope,Arial,sans-serif;transition:border-color .2s ease,background .2s ease,color .2s ease}
+.cr-steps button b{display:inline-grid;place-items:center;flex:none;width:26px;height:26px;border:1px solid #dce1dd;font-size:10px;font-weight:800;color:#77827d;margin:0}
+.cr-steps button.active{border-color:#ec9d6b;background:#fff8f2;color:#1f2a25}
+.cr-steps button.active b{background:#ff751f;border-color:#ff751f;color:#fff}
+.cr-steps button.done{border-color:#e9d4c7;color:#b44c15}
+.cr-steps button.done b{background:#ffe8d7;border-color:#f5c6a4;color:#9f4312}
+.cr-steps button:disabled{opacity:1;color:#84918a}
+.cr-purposes{gap:16px}
+.cr-purposes button{display:flex;flex-direction:column;align-items:stretch;min-height:250px;padding:25px 26px 23px;background:#fbfbf9;border:1px solid #dce2de;box-shadow:none;isolation:isolate}
+.cr-purposes button:nth-child(2n){background:#faf9f6}
+.cr-purposes button:last-child{grid-column:1/-1;min-height:220px}
+.cr-purposes button.selected{background:#fff8f2;border-color:#dc732f;box-shadow:inset 0 0 0 1px #dc732f}
+.cr-purposes button.selected::after{content:none}
+.cr-purposes button .cr-purpose-top{display:flex;align-items:flex-start;justify-content:space-between;min-height:96px;gap:10px}
+.cr-purposes button .cr-purpose-top>small{margin:2px 0 0;color:#a84a1b;font-size:10px;line-height:1.55;letter-spacing:.11em;font-weight:800}
+.cr-purposes button .cr-purpose-art{display:block;flex:none;width:138px;height:100px;margin:-8px -8px 0 0;padding:0!important;color:#bd673b;opacity:.85;transition:transform .3s ease}
+.cr-purposes button .cr-purpose-art svg{display:block;width:100%;height:100%}
+.cr-purposes button:hover .cr-purpose-art{transform:translateY(-3px)}
+.cr-purposes strong{margin:0 0 10px;font:400 clamp(23px,2vw,32px)/1.15 Lora,Georgia,serif;letter-spacing:-.045em;color:#202824}
+.cr-purposes button>.cr-purpose-desc{display:block;padding:0;margin:0 0 20px;color:#626c68;font-size:13px;line-height:1.6}
+.cr-purposes button>.cr-purpose-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto;padding:13px 0 0;border-top:1px solid #e4e5e1;color:#a94d1a;font-size:10px;line-height:1.4;letter-spacing:.085em;font-weight:800}
+.cr-purposes button>.cr-purpose-foot span{color:#c3541a;font-size:16px}
+.cr-choice-bottom{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:23px}
+.cr-choice-bottom .cr-link{margin:0}
+.cr-choice-bottom>span{font-size:12px;color:#66776c;max-width:340px}
+.cr-summary{border-top:3px solid #ff751f}
+.cr-summary>img{height:170px}
+.cr-next:focus-visible,.cr-back:focus-visible,.cr-purposes button:focus-visible,.cr-steps button:focus-visible{outline:3px solid #ff751f;outline-offset:3px}
+@media(max-width:940px){.cr-steps button{gap:7px;padding:11px 9px;font-size:10px}}
+@media(max-width:640px){.cr-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:34px}.cr-steps button{font-size:11px;min-height:52px;background:#fff}.cr-steps button b{font-size:10px}.cr-purposes{grid-template-columns:1fr;gap:12px}.cr-purposes button:last-child{grid-column:auto}.cr-purposes button{min-height:235px;padding:22px}.cr-purposes button .cr-purpose-top{min-height:80px}.cr-purposes button .cr-purpose-art{width:115px;height:87px}.cr-choice-bottom{align-items:flex-start;flex-direction:column}.cr-summary>img{height:160px}}
+@media(prefers-reduced-motion:reduce){.cr-steps button,.cr-purposes button .cr-purpose-art{transition:none!important;transform:none!important}}
+
+/* V8.1.2: independent CREATE progress, not subject to old .cr-progress-meter span rules. */
+.cr-studio .cr-v812-meter{display:block!important;width:100%;min-width:0;min-height:3px;height:3px!important;padding:0!important;margin:20px 0 14px!important;background:transparent!important;overflow:hidden!important;line-height:normal}
+.cr-studio .cr-v812-meter>.tb-v81-line-track{display:block;height:3px;width:100%;background:#e5e9e5;overflow:hidden}
+.cr-studio .cr-v812-meter .tb-v81-line-fill{display:block;height:3px;width:100%;background:#ff751f;transition:transform 320ms cubic-bezier(.22,1,.36,1)}
+.cr-studio .cr-v812-meter .tb-v81-line-nodes{display:none!important}
+@media(prefers-reduced-motion:reduce){.cr-studio .cr-v812-meter .tb-v81-line-fill{transition:none!important}}

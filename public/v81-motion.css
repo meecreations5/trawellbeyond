@@ -1,0 +1,86 @@
+/* TrawellBeyond V8.1 | Journey in Motion. Preserve master SVG, typography and existing layouts. */
+:root{
+ --tb-v81-quick:180ms;--tb-v81-standard:320ms;--tb-v81-editorial:540ms;
+ --tb-v81-ease:cubic-bezier(.22,1,.36,1);--tb-v81-orange:#ff751f;--tb-v81-charcoal:#1a1a1a;
+}
+/* V8.1.2: a genuine signature motion moment, not a tiny corner toast. */
+.tb-v81-brand-reveal{position:fixed;inset:0;z-index:1800;display:grid;place-items:center;width:100%;height:100dvh;min-height:300px;pointer-events:none;user-select:none;isolation:isolate;background:#fff;animation:tb-v812-screen 1750ms ease both}
+.tb-v81-reveal-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;width:min(590px,90vw);padding:22px;gap:0}
+.tb-v81-brand-reveal img.tb-v81-reveal-logo{display:block;width:100%;max-width:560px;height:auto;max-height:126px;object-fit:contain;clip-path:inset(0 100% 0 0);animation:tb-v812-logo-reveal 800ms 160ms cubic-bezier(.22,1,.36,1) both}
+.tb-v81-welcome-line{display:block;width:min(360px,80%);height:2px;margin:21px auto 13px;background:#ff751f;transform-origin:center;animation:tb-v812-line-reveal 600ms 450ms cubic-bezier(.22,1,.36,1) both}
+.tb-v81-brand-caption{display:block;color:#52635a;font:800 clamp(8px,1vw,10px)/1.7 Manrope,Arial,sans-serif;letter-spacing:.16em;text-align:center;animation:tb-v812-caption 500ms 710ms ease both}
+@keyframes tb-v812-screen{0%,4%{opacity:0;visibility:visible}14%,76%{opacity:1;visibility:visible}98%{opacity:0;visibility:visible}100%{opacity:0;visibility:hidden}}
+@keyframes tb-v812-logo-reveal{0%{opacity:0;clip-path:inset(0 100% 0 0);transform:translateY(10px)}20%{opacity:1}100%{opacity:1;clip-path:inset(0 0 0 0);transform:translateY(0)}}
+@keyframes tb-v812-line-reveal{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes tb-v812-caption{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* Everyday header identity: subtle and accessible, never a repeated splash. */
+.logo-link,.brand-link,.tb-logo{position:relative}
+.logo-link::after,.brand-link::after,.tb-logo::after{content:'';position:absolute;left:10%;right:10%;bottom:-3px;height:2px;background:#ff751f;transform:scaleX(0);transform-origin:center;transition:transform 260ms cubic-bezier(.22,1,.36,1);pointer-events:none}
+.logo-link:hover::after,.brand-link:hover::after,.tb-logo:hover::after,.logo-link:focus-visible::after,.brand-link:focus-visible::after,.tb-logo:focus-visible::after{transform:scaleX(1)}
+.logo-link:focus-visible,.brand-link:focus-visible,.tb-logo:focus-visible{outline:3px solid #ff751f;outline-offset:5px}
+/* Path progress uses transform, never changes page layout. */
+.tb-v81-line{position:relative;min-width:0;min-height:2px;isolation:isolate}
+.tb-v81-line-track{display:block;width:100%;height:2px;background:rgba(126,111,100,.38);overflow:hidden}
+.tb-v81-line-fill{display:block;height:100%;width:100%;background:var(--tb-v81-orange);transform-origin:left center;transition:transform var(--tb-v81-standard) var(--tb-v81-ease)}
+.tb-v81-line-nodes{position:absolute;inset:-4px 0 auto;display:flex;justify-content:space-between;pointer-events:none}
+.tb-v81-line-nodes span{width:9px;height:9px;border-radius:50%;border:2px solid #c6b8ad;background:#fff;transition:border-color var(--tb-v81-quick),background var(--tb-v81-quick)}
+.tb-v81-line-nodes span.is-complete{border-color:var(--tb-v81-orange);background:var(--tb-v81-orange)}
+/* Living postcard: photos stay still until intentional hover/focus or navigation. */
+.destination-big,.destination-small,.journey-img,.tb-card,.tb-v81-postcard{backface-visibility:hidden}
+@media(hover:hover) and (pointer:fine){
+ .destination-big,.destination-small,.journey-img{transition:transform var(--tb-v81-standard) var(--tb-v81-ease),box-shadow var(--tb-v81-standard) var(--tb-v81-ease)}
+ .destination-big:hover,.destination-small:hover,.journey-img:hover{transform:translateY(-3px)}
+ .tb-card-visual{transition:transform var(--tb-v81-editorial) var(--tb-v81-ease)}
+ .tb-card:hover .tb-card-visual,.tb-card:focus-visible .tb-card-visual{transform:scale(1.025)}
+}
+.destination-big:focus-visible,.destination-small:focus-visible,.journey-img:focus-visible,.tb-card:focus-visible{outline:3px solid var(--tb-v81-orange);outline-offset:4px}
+.tb-v81-card-pressed{filter:brightness(.96)}
+.tb-v81-arrived{animation:tb-v81-postcard-arrive 540ms var(--tb-v81-ease) both}
+@keyframes tb-v81-postcard-arrive{from{opacity:.72;transform:scale(1.025)}to{opacity:1;transform:scale(1)}}
+/* A save responds immediately; the small checkmark is additional feedback only. */
+[data-tb-add-experience][aria-pressed="true"],[data-tb-add-destination][aria-pressed="true"]{border-color:#e08b54!important;color:#9c4213!important;background:#fff5ed!important}
+.tb-v81-save-confirmed{animation:tb-v81-save-pop 180ms var(--tb-v81-ease) both}
+@keyframes tb-v81-save-pop{50%{transform:scale(1.025)}100%{transform:scale(1)}}
+#tb-tray-toggle.tb-v81-save-pulse{animation:tb-v81-tray-pulse 320ms var(--tb-v81-ease) both}
+@keyframes tb-v81-tray-pulse{50%{box-shadow:0 0 0 5px rgba(255,117,31,.14)}100%{box-shadow:none}}
+/* CREATE shares the same line primitive as the Story/Philosophy. */
+.cr-v81-progress{height:18px;margin:14px 0 19px!important;padding-top:8px;overflow:visible!important;background:transparent!important}
+.cr-v81-progress .tb-v81-line-track{height:3px;background:#e5e9e5}
+.cr-v81-progress .tb-v81-line-fill{height:100%;background:#ff751f}
+.cr-v81-progress .tb-v81-line-nodes{top:3px}
+.cr-v81-progress .tb-v81-line-nodes span{background:#fff}
+.cr-v81-progress .tb-v81-line-nodes span.is-complete{background:#ff751f}
+.cr-v81-success-mark{display:inline-flex;align-items:center;justify-content:center;border:2px solid #ff751f;border-radius:50%;width:60px;height:60px;font-size:28px;color:#b65117;animation:tb-v81-check 320ms ease-out both}
+@keyframes tb-v81-check{from{opacity:.6;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+/* Brand states provide readable messages first; no endlessly animated spinner. */
+.tb-v81-state{display:flex;gap:18px;align-items:flex-start;max-width:900px;background:#f8f8f5;border:1px solid #e2e6df;padding:28px;color:#26382d}
+.tb-v81-state-symbol{flex:none;width:36px;height:36px;border:1px solid #f0a06b;color:#bc541a;display:grid;place-items:center;font-size:20px}
+.tb-v81-state h3{margin:0 0 8px;font:600 clamp(17px,2vw,25px)/1.3 Manrope,Arial,sans-serif;letter-spacing:-.025em}.tb-v81-state p{margin:0;line-height:1.75;font-size:13px;color:#5c7165}
+.tb-v81-state a{display:inline-flex;align-items:center;align-self:center;margin-left:auto;white-space:nowrap;color:#b74e13;border-bottom:1px solid #ff751f;font-size:12px;font-weight:700}
+.tb-v81-state-error{border-color:#dcafa1}.tb-v81-state-success{background:#fff7f0}
+.tb-v81-state-loading .tb-v81-state-symbol{background:linear-gradient(100deg,#fff0e7,#f5f3ef,#fff0e7)}
+/* Story reading progress stays outside the editorial text column. */
+.bs-v81-chapter-rail{position:fixed;top:46%;right:12px;z-index:12;width:64px;padding:12px 6px;background:rgba(255,255,255,.92);border:1px solid #e7e3dc;box-shadow:0 8px 22px #22352c0b}
+.bs-v81-chapter-label{display:block;white-space:nowrap;color:#995226;font:700 7px/1.4 Manrope,Arial,sans-serif;letter-spacing:.08em;margin-bottom:12px}
+.bs-v81-chapter-rail .tb-v81-line{margin-bottom:9px}.bs-v81-chapter-rail .tb-v81-line-nodes{display:none}
+.bs-v81-chapter-links{display:grid;grid-template-columns:repeat(2,1fr);gap:4px}
+.bs-v81-chapter-links a{display:grid;place-items:center;padding:7px 2px;font:700 9px Manrope,Arial,sans-serif;color:#69746d;border:1px solid transparent;text-decoration:none}
+.bs-v81-chapter-links a.is-current{background:#fff1e8;color:#a8440b;border-color:#f1d9c9}
+.bs-v81-chapter-links a:focus-visible{outline:2px solid #ff751f;outline-offset:1px}
+.bs-v81-philosophy-line{max-width:385px;margin:42px 0 24px}.bs-v81-philosophy-line .tb-v81-line-track{height:3px}.bs-v81-philosophy-line .tb-v81-line-nodes span{background:#1a1a1a}.bs-v81-philosophy-line .tb-v81-line-nodes span.is-complete{background:#ff751f}
+@media(max-width:1180px){.bs-v81-chapter-rail{display:none}}
+@media(max-width:640px){.tb-v81-reveal-inner{width:min(390px,94vw);padding:20px}.tb-v81-brand-reveal img.tb-v81-reveal-logo{max-width:360px}.tb-v81-welcome-line{margin-top:17px}.tb-v81-state{padding:20px;flex-wrap:wrap}.tb-v81-state a{margin-left:54px}.bs-v81-philosophy-line{margin:30px 0 20px}}
+@media(prefers-reduced-motion:reduce){
+ .tb-v81-brand-reveal{display:none!important}
+ .tb-v81-line-fill,.tb-v81-line-nodes span,.tb-v81-save-confirmed,#tb-tray-toggle.tb-v81-save-pulse,.tb-v81-arrived,.cr-v81-success-mark{animation:none!important;transition:none!important;transform:none}
+ .tb-v81-line-fill{transform:scaleX(var(--tb-v81-progress,1))!important}
+ .tb-v81-card-pressed{filter:none}
+ .tb-card-visual,.destination-big,.destination-small,.journey-img{transition:none!important}
+}
+
+/* Exact orange symbol extracted without editing the locked master logo. */
+.bs-v81-chapter-label{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.bs-v81-chapter-label img{width:9px;height:13px;object-fit:contain;flex:none}
+.cr-v81-progress-label{display:inline-flex;align-items:center;gap:9px}
+.cr-v81-progress-label img{width:11px;height:17px;object-fit:contain}
+.tb-v81-state-symbol img{display:block;width:14px;height:19px;object-fit:contain}

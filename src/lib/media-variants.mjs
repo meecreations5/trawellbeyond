@@ -48,7 +48,7 @@ export function getAssetByUrl(assets,url){
  return (assets||[]).find(item=>[item.url,item.variants?.display?.url,item.variants?.medium?.url,item.variants?.thumb?.url].includes(target))||null;
 }
 export function recordImageUrls(record){
- const keys=['heroImage','homeCreateImage','storyImage1','storyImage2','storyImage3','homeMomentImage1','homeMomentImage2','homeMomentImage3'];
+ const keys=['heroImage','homeCreateImage','storyImage1','storyImage2','storyImage3','homeMomentImage1','homeMomentImage2','homeMomentImage3','storyHeroImage','storyOriginImage','storyPeopleImage'];
  return [...keys.map(key=>record?.[key]),...imageUrls(record?.galleryImages),...imageUrls(record?.dayImages)].map(https).filter(Boolean);
 }
 export function withMediaAsset(record,field,asset){

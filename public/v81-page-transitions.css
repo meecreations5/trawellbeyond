@@ -1,0 +1,7 @@
+/* Browser-native public HTML page transitions only. Admin is intentionally excluded. */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:tb-v81-page-out 140ms ease-out both}
+::view-transition-new(root){animation:tb-v81-page-in 220ms ease-out both}
+@keyframes tb-v81-page-out{to{opacity:.85}}
+@keyframes tb-v81-page-in{from{opacity:.85}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){@view-transition{navigation:none}}

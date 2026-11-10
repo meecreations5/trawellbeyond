@@ -4,6 +4,8 @@ import Link from 'next/link';
 import {usePathname} from 'next/navigation';
 import {siteConfig} from '@/lib/site-chrome.mjs';
 import {renderGlobalFooter} from '@/lib/global-footer.mjs';
+import PageMotion from './PageMotion';
+import BrandReveal from './motion/BrandReveal';
 
 export default function PublicShell({children,site={}}){
  const [mobile,setMobile]=useState(false),[scrolled,setScrolled]=useState(false);
@@ -15,6 +17,7 @@ export default function PublicShell({children,site={}}){
   return ()=>window.removeEventListener('scroll',listener);
  },[]);
  useEffect(()=>setMobile(false),[pathname]);
+ useEffect(()=>{const onKey=e=>{if(e.key==='Escape')setMobile(false);};window.addEventListener('keydown',onKey);return ()=>window.removeEventListener('keydown',onKey);},[]);
  useEffect(()=>{
   // Next.js route transitions do not reliably execute scripts emitted by JSX.
   // Load the public tray once on the client, then reuse it across React pages.
@@ -25,18 +28,18 @@ export default function PublicShell({children,site={}}){
   document.body.append(script);
  },[pathname]);
  if(pathname?.startsWith('/admin'))return <>{children}</>;
- return <div className="tb-site">
+ return <div className="tb-site"><BrandReveal/><a href="#main-content" className="tb-skip-link">Skip to content</a>
   <div className="tb-top-note"><span>{cfg.topLeft}</span><span>{cfg.topRight}</span></div>
   <header className={`tb-header ${scrolled?'tb-header-scrolled':''}`}>
    <Link className="tb-logo" href="/" aria-label="TrawellBeyond homepage" onClick={()=>setMobile(false)}><img src="/trawellbeyond-logo.svg" alt="TrawellBeyond"/></Link>
-   <nav className={`tb-nav ${mobile?'tb-nav-open':''}`} aria-label="Main navigation">
+   <nav id="tb-primary-nav" className={`tb-nav ${mobile?'tb-nav-open':''}`} aria-label="Main navigation">
     {cfg.nav.map(([label,url])=><Link onClick={()=>setMobile(false)} href={url} key={`${label}:${url}`}>{label}</Link>)}
     <Link className="tb-nav-mobile-extra" onClick={()=>setMobile(false)} href="/create">CREATE your journey</Link>
    </nav>
    <Link href="/create" className="tb-nav-cta">{cfg.headerCta} <span aria-hidden="true">&#8599;</span></Link>
-   <button type="button" className="tb-mobile-toggle" aria-label={mobile?'Close menu':'Open menu'} aria-expanded={mobile} onClick={()=>setMobile(x=>!x)}>{mobile?'X':'Menu'}</button>
+   <button type="button" className="tb-mobile-toggle" aria-controls="tb-primary-nav" aria-label={mobile?'Close menu':'Open menu'} aria-expanded={mobile} onClick={()=>setMobile(x=>!x)}>{mobile?'X':'Menu'}</button>
   </header>
-  <div className="tb-page-content">{children}</div>
+  <div className="tb-page-content" id="main-content" tabIndex={-1}>{children}</div><PageMotion/>
   <div className="tb-global-footer-host" dangerouslySetInnerHTML={{__html:renderGlobalFooter(cfg)}} />
   <Link className="tb-concierge" href="/enquire">Ask TrawellBeyond &#8599;</Link>
  </div>;

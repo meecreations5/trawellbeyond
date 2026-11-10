@@ -1,3 +1,4 @@
+import {STORY_DEFAULTS} from './brand-story.mjs';
 /** Reviewable launch content. No Firestore operations occur when importing this module.
  * The Admin explicitly installs these as DRAFTS; publication is a separate action.
  * No commercial prices, attraction operating hours or confirmed inclusions are assumed.
@@ -51,6 +52,7 @@ export const LAUNCH_STARTERS=[
   homeClosingLead:'Some journeys are planned. Some begin with a conversation.'
  }),
  page('our-story','A new way to journey.','TrawellBeyond begins with a belief: every meaningful journey starts with understanding people.',{
+  ...STORY_DEFAULTS,
   description:entries([
    'We are TrawellBeyond, a travel, journeys and experiences venture created by the people behind DreamTrawell Destination.',
    'Travel is rarely just about where we go. It is about who we travel with, why it matters and the memories we hope to make. Our work begins with listening to those details, then designing the journey around them.',

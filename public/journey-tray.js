@@ -20,6 +20,17 @@
  const button=root.querySelector('#tb-tray-toggle'),panel=root.querySelector('#tb-tray-panel'),shade=root.querySelector('#tb-tray-shade'),list=root.querySelector('#tb-tray-items');
  let lastFocus=null,toastTimer=null;
  function notice(text){const toast=root.querySelector('#tb-tray-toast');toast.textContent=text;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),2200);}
+ function syncSaveButtons(){
+  document.querySelectorAll('[data-tb-add-experience],[data-tb-add-destination]').forEach(target=>{
+   if(!target.dataset.tbSaveOriginal)target.dataset.tbSaveOriginal=target.textContent.trim();
+   const type=target.hasAttribute('data-tb-add-experience')?'experiences':'destinations';
+   const title=String(target.dataset.tbTitle||'Selection');
+   const chosen=state[type].some(x=>x.slug===slug(target.dataset.tbSlug));
+   target.setAttribute('aria-pressed',String(chosen));
+   target.setAttribute('aria-label',chosen?`${title} saved to My Journey. Activate to remove.`:`Save ${title} to My Journey`);
+   target.textContent=chosen?'✓ Saved to My Journey':target.dataset.tbSaveOriginal;
+  });
+ }
  function render(){
   const count=state.destinations.length+state.experiences.length;
   root.querySelector('#tb-tray-count').textContent=String(count);
@@ -27,6 +38,7 @@
    state.purpose?`<section><h3>YOUR PURPOSE</h3><p>${escape(state.purpose)}</p></section>`:'',
    ...[['destinations','Destinations'],['experiences','Experiences']].map(([type,label])=>state[type].length?`<section><h3>${label.toUpperCase()}</h3>${state[type].map(x=>`<div class="tb-tray-item"><span>${escape(x.title)}</span><button type="button" data-remove-type="${type}" data-remove-slug="${escape(x.slug)}" aria-label="Remove ${escape(x.title)}">×</button></div>`).join('')}</section>`:'')].join(''):'<p>No destinations or experiences selected yet. Browse Singapore and add your favourites.</p>';
   root.querySelector('#tb-tray-clear').hidden=!count&&!state.purpose;
+  syncSaveButtons();
  }
  function open(){lastFocus=document.activeElement;panel.hidden=false;shade.hidden=false;button.setAttribute('aria-expanded','true');document.body.classList.add('tb-tray-open');root.querySelector('#tb-tray-close').focus();}
  function close(){panel.hidden=true;shade.hidden=true;button.setAttribute('aria-expanded','false');document.body.classList.remove('tb-tray-open');lastFocus?.focus?.();}
@@ -38,12 +50,21 @@
   const ex=event.target.closest('[data-tb-add-experience]');const dest=event.target.closest('[data-tb-add-destination]');
   const target=ex||dest;if(!target)return;
   event.preventDefault();
-  const type=ex?'experiences':'destinations';save(type,{slug:target.dataset.tbSlug,title:target.dataset.tbTitle,destinationSlug:target.dataset.tbDestinationSlug});
-  notice(`${target.dataset.tbTitle||'Selection'} added to My Journey.`);
-  target.setAttribute('aria-label',`${target.dataset.tbTitle||'Selection'} added to My Journey`);
+  const type=ex?'experiences':'destinations';const title=String(target.dataset.tbTitle||'Selection');
+  load();const itemSlug=slug(target.dataset.tbSlug);
+  const existed=state[type].some(x=>x.slug===itemSlug);
+  if(existed){state[type]=state[type].filter(x=>x.slug!==itemSlug);persist();notice(`${title} removed from My Journey.`);}
+  else{
+   save(type,{slug:itemSlug,title,destinationSlug:target.dataset.tbDestinationSlug});
+   notice(`${title} added to My Journey.`);
+   if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    target.classList.add('tb-v81-save-confirmed');button.classList.add('tb-v81-save-pulse');
+    setTimeout(()=>{target.classList.remove('tb-v81-save-confirmed');button.classList.remove('tb-v81-save-pulse');},340);
+   }
+  }
  });
  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!panel.hidden)close();if(event.key!=='Tab'||panel.hidden)return;const focus=Array.from(panel.querySelectorAll('button:not(:disabled):not([hidden]),a[href]'));if(!focus.length)return;const first=focus[0],last=focus[focus.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}});
  window.addEventListener('storage',event=>{if(event.key===KEY){load();render();}});
- window.TBJourneyTray={add:(type,item)=>save(type,item),setPurpose:value=>save('purpose',value),snapshot:()=>JSON.parse(JSON.stringify(load())),open,clear:()=>{state={version:1,destinations:[],experiences:[],purpose:''};persist();}};
+ window.TBJourneyTray={refresh:()=>{load();render()},add:(type,item)=>save(type,item),setPurpose:value=>save('purpose',value),snapshot:()=>JSON.parse(JSON.stringify(load())),open,clear:()=>{state={version:1,destinations:[],experiences:[],purpose:''};persist();}};
  load();render();
 })();

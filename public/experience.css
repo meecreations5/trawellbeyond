@@ -23,3 +23,36 @@
 .tb-extra-footer{display:flex;gap:20px;flex-wrap:wrap;justify-content:flex-start;padding:24px 0 12px;border-top:1px solid #e4e7ea}.tb-extra-footer a,.tb-extra-cta a{font:600 11px Manrope,Arial,sans-serif;color:#3d4b47;text-decoration:none}.tb-extra-cta{padding:9px 0 25px}.tb-extra-cta a{color:#b9531a}.desktop-links a{white-space:nowrap}
 
 .tb-all-experiences{display:flex;justify-content:flex-end;padding:27px 0 8px}.tb-all-experiences .text-action{font-size:12px;font-weight:800}
+/* V8.0 itinerary: clearer selectable days and tactile previous/next navigation. */
+.day-step-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid #e4e7e5;margin-top:24px;padding-top:18px}
+.day-step-actions button{border:1px solid #d6ded8;background:#fff;padding:12px 14px;color:#2d3d34;font-size:11px;font-weight:800;cursor:pointer}
+.day-step-actions button:hover:not(:disabled){background:#fff0e7;border-color:#db7c42}
+.day-step-actions button:disabled{opacity:.35;cursor:not-allowed}
+.day-step-actions span{font-size:10px;color:#a44b1d;letter-spacing:.11em;font-weight:800}
+.day-menu button:focus-visible,.day-step-actions button:focus-visible{outline:3px solid #ff751f;outline-offset:3px}
+.day-menu{scrollbar-color:#b7c5b9 #e3e7e4}
+@media(max-width:760px){.day-step-actions{gap:8px;flex-wrap:wrap}.day-step-actions button{min-height:46px;font-size:10px;padding:10px}.day-step-actions span{font-size:9px}}
+
+/* V8.0.1 | Detail-page logo and destination intro actions.
+ * Keep the approved brand artwork intact; adjust only visual size on journey pages.
+ * Differentiate "Explore" (navigation) from "Save" (journey tray) and avoid
+ * inline elements colliding when the content width becomes narrow. */
+.package-page .brand-link img{width:234px;max-width:100%;height:auto}
+.destination-page .intro-copy p{font-size:clamp(14px,1.05vw,15px);line-height:1.9;max-width:64ch}
+.destination-page .tb-intro-actions{display:flex;align-items:stretch;flex-wrap:wrap;gap:12px 16px;margin-top:32px}
+.destination-page .tb-intro-actions .tb-intro-primary,
+.destination-page .tb-intro-actions .tb-intro-save{display:inline-flex;align-items:center;justify-content:space-between;gap:18px;min-height:50px;padding:14px 18px;font:700 12px/1.5 'Manrope',Arial,sans-serif;text-decoration:none;text-align:left;white-space:normal;transition:background-color .2s ease,border-color .2s ease,color .2s ease}
+.destination-page .tb-intro-actions .tb-intro-primary{color:#fff;background:#202824;border:1px solid #202824}
+.destination-page .tb-intro-actions .tb-intro-primary span{color:#ff9956;font-size:17px}
+.destination-page .tb-intro-actions .tb-intro-save{background:#fff;color:#a84917;border:1px solid #d1a186;cursor:pointer}
+@media(hover:hover){
+ .destination-page .tb-intro-actions .tb-intro-primary:hover{background:#39463f;border-color:#39463f}
+ .destination-page .tb-intro-actions .tb-intro-save:hover{background:#fff3eb;border-color:#a84917;color:#8b3510}
+}
+.destination-page .tb-intro-actions :is(a,button):focus-visible{outline:3px solid #ff751f;outline-offset:3px}
+@media(max-width:760px){.package-page .brand-link img{width:clamp(174px,50vw,198px)}}
+@media(max-width:600px){
+ .destination-page .tb-intro-actions{flex-direction:column;align-items:stretch;gap:12px;margin-top:25px}
+ .destination-page .tb-intro-actions .tb-intro-primary,.destination-page .tb-intro-actions .tb-intro-save{width:100%;min-height:52px;justify-content:space-between}
+}
+@media(prefers-reduced-motion:reduce){.destination-page .tb-intro-actions :is(a,button){transition:none}}

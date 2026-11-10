@@ -98,7 +98,7 @@ test('new CMS photo credits field is writable under Firestore rules',()=>{
 test('CREATE has four visual steps, published destination/experience choices and enquiry submission',()=>{
  const create=readFileSync(new URL('../src/components/CreateStudio.jsx',import.meta.url),'utf8');
  const css=readFileSync(new URL('../src/components/create-studio.css',import.meta.url),'utf8');
- for(const phrase of ['Your purpose','Your destination','Your preferences','Your enquiry','publishedList(\'destinations\'','publishedList(\'experiences\'','submitEnquiry','SG_PHOTOS'])assert.ok(create.includes(phrase),phrase);
+ for(const phrase of ['Your purpose','Your destination','Your preferences','Your enquiry','publishedList(\'destinations\'','publishedList(\'experiences\'','submitEnquiry','PurposeArtwork'])assert.ok(create.includes(phrase),phrase);
  assert.match(css,/\.cr-purposes/);
  assert.match(css,/\.cr-experiences/);
  assert.match(css,/@media\(max-width:640px\)/);

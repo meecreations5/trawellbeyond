@@ -1,2 +1,3 @@
 import Link from 'next/link';
-export default function NotFound(){return <main className="tb-notfound tb-container"><span className="tb-eyebrow">A DIFFERENT WAY</span><h1>This path isn't<br/><em>available just yet.</em></h1><p>The destination or journey may still be in draft.</p><Link href="/destinations" className="tb-primary-button">Explore destinations ↗</Link></main>;}
+import BrandedState from '@/components/motion/BrandedState';
+export default function NotFound(){return <main className="tb-notfound tb-container"><span className="tb-eyebrow">A DIFFERENT WAY</span><h1>This path isn't<br/><em>available just yet.</em></h1><p>The destination or journey may still be in draft.</p><BrandedState kind="empty" title="We can still create a journey around you." description="Browse the published destinations, or share what you imagine with our team."/><Link href="/destinations" className="tb-primary-button">Explore destinations ↗</Link></main>;}

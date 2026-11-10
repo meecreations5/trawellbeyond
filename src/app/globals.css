@@ -39,3 +39,23 @@ em{font-family:'Lora',Georgia,serif}
 .tb-legal .tb-long-copy h2{font-family:'Lora',Georgia,serif;font-size:30px;font-weight:400;margin-top:50px}
 .tb-long-copy{line-height:1.95;color:#455057}.tb-long-copy p{max-width:950px;white-space:pre-wrap}
 @media(max-width:700px){.tb-top-note span:last-child{display:none}.tb-top-note{min-height:30px}.tb-header{height:76px}.tb-listing-header{padding-top:66px}.tb-nav-cta{font-size:10px;padding:12px}.tb-logo{width:150px}}
+
+/* V8.0 shared interior motion, keyboard focus and typographic consistency. */
+html{scroll-padding-top:28px}
+.tb-site{overflow:clip}
+.tb-page-content{outline:0}
+.tb-skip-link{position:fixed;left:20px;top:-90px;z-index:1000;padding:15px 19px;background:#202824;color:#fff;font-size:13px;font-weight:800}
+.tb-skip-link:focus{top:10px}
+:where(.tb-site,.bs-page) :is(a,button,input,textarea,select,summary):focus-visible{outline:3px solid #ff751f;outline-offset:4px}
+.tb-nav>a[aria-current="page"]{color:#b95120}
+.tb-parallax-media{--tb-parallax-offset:0px}
+.tb-reveal.tb-motion-enabled{opacity:0;transform:translate3d(0,22px,0);transition:opacity .65s cubic-bezier(.2,1,.2,1),transform .75s cubic-bezier(.2,1,.2,1)}
+.tb-reveal.tb-motion-enabled.tb-is-visible{opacity:1;transform:translateZ(0)}
+.tb-cards .tb-card:focus-visible{transform:translateY(-3px);box-shadow:0 16px 35px #10251d1a}
+.tb-card-visual{overflow:hidden}
+.tb-card-visual:after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,#12251a24,transparent 65%)}
+.tb-card-bottom strong{color:#b45523}
+.tb-photo-awaiting{position:absolute;bottom:18px;left:22px;z-index:1;color:#fff;font-size:10px;letter-spacing:.12em;font-weight:800;text-transform:uppercase}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){.tb-card .tb-card-visual{transition:background-size .5s ease,filter .5s ease}.tb-card:hover .tb-card-visual{filter:saturate(1.12)}}
+@media(max-width:850px){.tb-site{overflow:clip}.tb-nav{z-index:90}.tb-header .tb-mobile-toggle{margin-left:auto}}
+@media(prefers-reduced-motion:reduce){.tb-reveal.tb-motion-enabled{opacity:1;transform:none;transition:none}.tb-parallax-media{--tb-parallax-offset:0px!important}}

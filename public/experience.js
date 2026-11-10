@@ -43,8 +43,13 @@ const defaultDays=[
 ];
 const days=Array.isArray(cms.days)&&cms.days.length?cms.days:defaultDays;
 const dayBtns=qa('[data-day]');
-function chooseDay(i){const d=days[i];if(!d)return;dayBtns.forEach((b,k)=>{const selected=k===i;b.classList.toggle('active',selected);b.setAttribute('aria-selected',String(selected));b.tabIndex=selected?0:-1});const panel=q('#day-panel');if(panel)panel.setAttribute('aria-labelledby',`day-tab-${i}`);q('#dayEyebrow').textContent=d.b;q('#dayTitle').textContent=d.title;q('#dayCopy').textContent=d.copy;q('#dayTags').replaceChildren(...d.tags.map(s=>{const tag=document.createElement('span');tag.textContent=s;return tag}));const img=q('#dayPhoto');img.style.setProperty('--remote',`url('${d.remote}')`);img.style.setProperty('--local',`url('${d.local}')`)}
-dayBtns.forEach((b,i)=>{b.addEventListener('click',()=>chooseDay(i));b.addEventListener('keydown',e=>{let next=i;if(e.key==='ArrowRight'||e.key==='ArrowDown')next=(i+1)%days.length;else if(e.key==='ArrowLeft'||e.key==='ArrowUp')next=(i+days.length-1)%days.length;else return;e.preventDefault();chooseDay(next);dayBtns[next].focus()})});
+function chooseDay(i){const d=days[i];if(!d)return;currentDay=i;if(countDay)countDay.textContent=`${String(i+1).padStart(2,'0')} / ${String(days.length).padStart(2,'0')}`;if(prevDay)prevDay.disabled=i===0;if(nextDay)nextDay.disabled=i===days.length-1;dayBtns.forEach((b,k)=>{const selected=k===i;b.classList.toggle('active',selected);b.setAttribute('aria-selected',String(selected));b.tabIndex=selected?0:-1});const panel=q('#day-panel');if(panel)panel.setAttribute('aria-labelledby',`day-tab-${i}`);q('#dayEyebrow').textContent=d.b;q('#dayTitle').textContent=d.title;q('#dayCopy').textContent=d.copy;q('#dayTags').replaceChildren(...d.tags.map(s=>{const tag=document.createElement('span');tag.textContent=s;return tag}));const img=q('#dayPhoto');img.style.setProperty('--remote',`url('${d.remote}')`);img.style.setProperty('--local',`url('${d.local}')`)}
+dayBtns.forEach((b,i)=>{b.addEventListener('click',()=>chooseDay(i));b.addEventListener('keydown',e=>{let next=i;if(e.key==='ArrowRight'||e.key==='ArrowDown')next=(i+1)%days.length;else if(e.key==='ArrowLeft'||e.key==='ArrowUp')next=(i+days.length-1)%days.length;else if(e.key==='Home')next=0;else if(e.key==='End')next=days.length-1;else return;e.preventDefault();chooseDay(next);dayBtns[next].focus()})});
+const prevDay=q('#tb-prev-day'),nextDay=q('#tb-next-day'),countDay=q('#tb-day-count');
+let currentDay=0;
+prevDay?.addEventListener('click',()=>{chooseDay(Math.max(0,currentDay-1));dayBtns[currentDay]?.scrollIntoView({block:'nearest',inline:'nearest'});});
+nextDay?.addEventListener('click',()=>{chooseDay(Math.min(days.length-1,currentDay+1));dayBtns[currentDay]?.scrollIntoView({block:'nearest',inline:'nearest'});});
+if(days.length){chooseDay(0);}
 const initial={nights:Math.min(12,Math.max(2,Number(cms.nights)||3)),adults:2,children:0,stay:'Comfort'};
 let state={...initial};
 const minmax={nights:[2,12],adults:[1,14],children:[0,10]};

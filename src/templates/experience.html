@@ -9,8 +9,10 @@
 <link rel="stylesheet" href="/sg-gallery.css"/>
 <link rel="stylesheet" href="/global-footer.css" />
 <link rel="stylesheet" href="/travel-guide-v75.css" />
+<link rel="stylesheet" href="/v81-motion.css" />
+<link rel="stylesheet" href="/v81-page-transitions.css" />
 </head>
-<body class="experience-detail-page">
+<body class="experience-detail-page" data-tb-ui-version="v8.1.2">
 <div id="scrollProgress" aria-hidden="true" class="scroll-progress"></div>
 <div class="utility"><span id="tbTopLeft">TRAVEL · JOURNEYS · EXPERIENCES</span><span id="tbTopRight">A DREAMTRAWELL DESTINATION VENTURE</span></div>
 <header class="tb-header" id="top">
@@ -32,6 +34,7 @@
   </div>
   <div class="ex-hero__index" aria-hidden="true">01 / EXPERIENCE</div>
  </section>
+ <nav class="ex-quick-nav" aria-label="Experience sections"><div class="page-width ex-quick-nav-inner"><span>EXPLORE THIS EXPERIENCE</span><a href="#experience-story">The story</a><a href="#highlights">Highlights</a><a href="#practical">Plan your visit</a><a href="#experience-enquiry">Ask our team</a><a class="ex-quick-create" href="__TB_CREATE_URL__">Add to CREATE ↗</a></div></nav>
  <section class="ex-intro page-width" id="experience-story" aria-labelledby="storyTitle">
   <div class="ex-section-no rise">01 / THE EXPERIENCE</div>
   <div class="ex-intro__heading rise"><h2 id="storyTitle">A moment to<br/><em>make yours.</em></h2><p class="ex-intro__lead">__TB_SUMMARY__</p></div>
@@ -39,7 +42,7 @@
  </section>
  <section class="ex-highlights" id="highlights" aria-labelledby="highlightsTitle">
   <div class="page-width"><div class="ex-section-top rise"><span class="ex-section-no">02 / THE HIGHLIGHTS</span><h2 id="highlightsTitle">The moments<br/><em>that stand out.</em></h2><p>Every experience has its own story. Here are a few reasons this one could be part of yours.</p></div>
-  <div class="ex-highlight-grid">__TB_HIGHLIGHTS__</div></div>
+  <div class="ex-highlights-layout __TB_HIGHLIGHTS_LAYOUT__">__TB_HIGHLIGHT_MEDIA__<div class="ex-highlight-grid">__TB_HIGHLIGHTS__</div></div><div class="ex-highlights-foot"><span>THE MOMENTS ARE YOURS TO CHOOSE</span><a href="__TB_CREATE_URL__">Include this experience in my journey <span aria-hidden="true">↗</span></a></div></div>
  </section>
  __TB_GALLERY_SECTION__
  __TB_EXPERIENCE_VIDEO__
@@ -71,5 +74,6 @@
 </main>
 <footer class="tb-footer page-width"><div class="footer-top"><a href="/"><img alt="TrawellBeyond" src="/assets/trawellbeyond-display.svg"/></a><div id="tbFooterCopy">TRAVEL · JOURNEYS · EXPERIENCES<br/><strong>Created Around You.</strong></div></div><div class="footer-under"><span id="tbFooterCompany">A DreamTrawell Destination Venture</span><span id="tbFooterBottom">Enquiry-led travel. No online payments.</span><a href="#top">Back to top ↑</a></div><nav class="tb-extra-footer" id="tbFooterLinks"><a href="/destinations">Destinations</a> <a href="/journeys">Journeys</a> <a href="/our-story">Our Story</a> <a href="/contact">Contact</a> <a href="/privacy">Privacy</a> <a href="/terms">Terms</a></nav><div class="tb-extra-cta" id="tbFooterContact"><a href="/create">CREATE your journey &nearr;</a></div></footer>
 <script id="tb-page-data" type="application/json">__TB_BOOTSTRAP__</script><script src="/enquiry-bridge.bundle.js" defer></script><script src="/experience.js" defer></script><script src="/experience-detail.js" defer></script>
-<script src="/sg-gallery.js" defer></script><script src="/video-preview-v75.js" defer></script></body>
+<script src="/sg-gallery.js" defer></script><script src="/video-preview-v75.js" defer></script><script src="/v81-motion.js" defer></script>
+</body>
 </html>

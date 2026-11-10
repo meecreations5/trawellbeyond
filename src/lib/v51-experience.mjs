@@ -29,6 +29,9 @@ export function renderV51Experience(template,{experience,destination=null,relate
  const high=lines(item.highlights).slice(0,8);
  const highlights=high.length?high:[summary];
  const gallery=[...new Set([hero,...lines(item.galleryImages)].filter(safeImage))].slice(0,8);
+ // Only display images already tied to this experience; never inject stock or another destination's photograph.
+ const highlightImage=gallery.length>1?gallery[1]:gallery[0]||'';
+ const highlightMedia=highlightImage?`<figure class="ex-highlight-media rise"><img src="${img(resolveImageVariant(item,highlightImage,'medium'))}" alt="${esc(title)} - experience preview" loading="lazy" decoding="async"/><figcaption>AN EXPERIENCE TO MAKE YOURS <span aria-hidden="true">↗</span></figcaption></figure>`:'';
  const destUrl=destination?.slug?`/destinations/${encode(destSlug)}`:'/destinations';
  const createUrl=`/create?destination=${encode(destinationName)}&experience=${encode(title)}&experienceSlug=${encode(item.slug||item.id)}`;
  const enquireUrl=`/enquire?destination=${encode(destinationName)}&experience=${encode(title)}`;
@@ -48,7 +51,8 @@ export function renderV51Experience(template,{experience,destination=null,relate
   TITLE:esc(title),SUMMARY:esc(summary),DEST_NAME:esc(destinationName),DEST_URL:destUrl,CATEGORY:esc(category),IMAGE:img(hero),
   DESCRIPTION:description.map(p=>`<p>${esc(p)}</p>`).join(''),
   CREATE_URL:esc(createUrl),ENQUIRE_URL:esc(enquireUrl),
-  HIGHLIGHTS:highlights.map((text,i)=>`<article class="ex-highlight rise"><span class="ex-highlight-index">${String(i+1).padStart(2,'0')}</span><p>${esc(text)}</p><span class="ex-highlight-arrow" aria-hidden="true">↗</span></article>`).join(''),
+  HIGHLIGHTS_LAYOUT:highlightMedia?'with-media':'without-media',HIGHLIGHT_MEDIA:highlightMedia,
+  HIGHLIGHTS:highlights.map((text,i)=>`<article class="ex-highlight rise"><span class="ex-highlight-index">MOMENT ${String(i+1).padStart(2,'0')}</span><p>${esc(text)}</p><span class="ex-highlight-rule" aria-hidden="true"></span></article>`).join(''),
   GALLERY_SECTION:gallerySection,EXPERIENCE_VIDEO:renderVideoPreview(item,{eyebrow:'EXPERIENCE / FILM',heading:'A closer look, in motion.',image:item.heroImage}),VISIT_GUIDE:renderVisitGuide(item),ADD_TO_TRAY:`<button type="button" class="tb-inline-add" data-tb-add-experience data-tb-title="${esc(title)}" data-tb-slug="${esc(item.slug||item.id)}" data-tb-destination-slug="${esc(destSlug)}">+ Save to My Journey</button>`,FACTS:facts.length?facts.join(''):'<div class="ex-fact"><small>Planning</small><strong>On request</strong></div>',
   NOTES:notes.join(''),SOURCE_NOTE:sourceNote,RELATED_SECTION:relatedSection,PHOTO_CREDITS:renderPhotoCredits(item.imageCredits),
   BOOTSTRAP:json({type:'experience',name:destinationName,destinationSlug:destSlug,title,slug:item.slug||item.id})

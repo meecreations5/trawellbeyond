@@ -21,7 +21,7 @@ service cloud.firestore {
    return request.resource.data.diff(resource.data).affectedKeys().hasAny([
     'heroImage','photoCredit','photoLicense','photoSourceUrl','galleryImages','dayImages','imageCredits',
     'imageVariants','storyImage1','storyImage2','storyImage3','homeCreateImage',
-    'homeMomentImage1','homeMomentImage2','homeMomentImage3'
+    'homeMomentImage1','homeMomentImage2','homeMomentImage3','storyHeroImage','storyOriginImage','storyPeopleImage'
    ]);
   }
   function mediaOnlyChanges() {
@@ -32,7 +32,7 @@ service cloud.firestore {
     && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
      'heroImage','photoCredit','photoLicense','photoSourceUrl','galleryImages','dayImages','imageCredits',
      'imageVariants','storyImage1','storyImage2','storyImage3','homeCreateImage',
-     'homeMomentImage1','homeMomentImage2','homeMomentImage3',
+     'homeMomentImage1','homeMomentImage2','homeMomentImage3','storyHeroImage','storyOriginImage','storyPeopleImage',
      'mediaReviewStatus','mediaReviewedAt','mediaReviewedBy','updatedAt','updatedBy'
     ]);
   }
@@ -100,6 +100,7 @@ service cloud.firestore {
        'homeCreateTitle','homeCreateLead','homeCreateImage','homeClosingTitle','homeClosingLead',
        'homeMomentTitle1','homeMomentLead1','homeMomentImage1','homeMomentTitle2','homeMomentLead2','homeMomentImage2','homeMomentTitle3','homeMomentLead3','homeMomentImage3','homeWorldsTitle','homeWorldsLead',
        'siteTopLeft','siteTopRight','siteNavLinks','siteHeaderCta','siteFooterLine1','siteFooterLine2','siteFooterCompany','siteFooterBottom','siteFooterEmail','siteFooterPhone','siteFooterLinks','siteFooterCta',
+       'storyEyebrow','storyHeroLead','storyOriginTitle','storyOriginBody','storyHeroImage','storyOriginImage','storyBeliefTitle','storyBeliefBody','storyPeopleTitle','storyPeopleBody','storyPeopleImage','storyClosingTitle','storyClosingBody','storyPromise','philosophyPeople','philosophyPurpose','philosophyRequirement','philosophyJourney','philosophyExperience','philosophyMoments',
        'mediaReviewStatus','mediaReviewedBy','mediaReviewedAt',
        'status','createdAt','updatedAt','updatedBy','publishedAt'
      ]);

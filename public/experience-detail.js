@@ -1,6 +1,19 @@
 /* The same Firebase Web SDK enquiry bridge used by the approved V5.1 journey page. */
 (()=>{
 'use strict';
+// If a previously published media URL fails, collapse the photo panel; never leave a broken tile.
+const highlightMedia=document.querySelector('.ex-highlight-media');
+const highlightPhoto=highlightMedia?.querySelector('img');
+if(highlightPhoto){
+ const hideFailedPhoto=()=>{
+  const layout=highlightMedia.parentElement;
+  highlightMedia.remove();
+  layout?.classList.remove('with-media');
+  layout?.classList.add('without-media');
+ };
+ highlightPhoto.addEventListener('error',hideFailedPhoto,{once:true});
+ if(highlightPhoto.complete&&!highlightPhoto.naturalWidth)hideFailedPhoto();
+}
 const form=document.querySelector('#experienceEnquiryForm');
 if(!form)return;
 let context={};
