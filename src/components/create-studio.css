@@ -64,3 +64,10 @@
 .cr-studio .cr-v812-meter .tb-v81-line-fill{display:block;height:3px;width:100%;background:#ff751f;transition:transform 320ms cubic-bezier(.22,1,.36,1)}
 .cr-studio .cr-v812-meter .tb-v81-line-nodes{display:none!important}
 @media(prefers-reduced-motion:reduce){.cr-studio .cr-v812-meter .tb-v81-line-fill{transition:none!important}}
+
+/* V8.2.1: equal-access region chooser inside CREATE. */
+.cr-region-tabs{display:flex;flex-wrap:wrap;gap:9px;margin:20px 0 22px}
+.cr-region-tabs button{min-height:44px;padding:11px 16px;display:inline-flex;align-items:center;gap:14px;background:#fff;border:1px solid #dce2de;color:#36463b;cursor:pointer;font:700 11px/1.4 Manrope,Arial,sans-serif}
+.cr-region-tabs button small{font-size:10px;color:#9a745c}.cr-region-tabs button.is-active{background:#fff4eb;border-color:#d87639;color:#a24b1a}
+.cr-region-tabs button:focus-visible{outline:3px solid #ff751f;outline-offset:3px}
+@media(max-width:640px){.cr-region-tabs{display:grid;grid-template-columns:1fr 1fr}.cr-region-tabs button:first-child{grid-column:1/-1}.cr-region-tabs button{justify-content:space-between;padding:10px}}

@@ -25,9 +25,11 @@ test('no Firebase Admin SDK dependency or server credentials required',()=>{
  assert.match(storage,/firestore\.get/);
  assert.match(storage,/request\.resource\.size/);
 });
-test('all customer enquiries require consent and are unreadable publicly',()=>{
+test('customer enquiries require consent; only the owner UID and authorized staff can read them',()=>{
  const rules=readFileSync('firestore.rules','utf8');
  assert.match(rules,/d\.consent == true/);
- assert.match(rules,/allow get,list: if adminAccess\(\)/);
+ assert.match(rules,/d.ownerUid == request.auth.uid/);
+ assert.match(rules,/allow get: if adminAccess\(\) \|\| assignedPublisher\(\) \|\| \(signedIn\(\)/);
+ assert.match(rules,/allow list: if adminAccess\(\) \|\| assignedPublisher\(\)/);
  assert.match(rules,/d\.createdAt == request\.time/);
 });

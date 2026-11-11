@@ -155,27 +155,52 @@ service cloud.firestore {
      && request.resource.data.path == resource.data.path;
    allow delete: if adminAccess();
   }
+  // V8.2: private visitor ownership, structured handoffs and restricted team assignments.
+  // Public users can create leads only for their own Firebase Auth UID.
   function validEnquiry(d) {
-    return signedIn()
-      && d.keys().hasOnly(['name','email','phone','destination','dates','travelers','purpose','notes','source','consent','status','createdAt'])
-      && d.keys().hasAll(['name','phone','consent','status','createdAt','source'])
-      && d.name is string && d.name.size() >= 2 && d.name.size() <= 120
-      && d.phone is string && d.phone.size() >= 7 && d.phone.size() <= 40
-      && d.email is string && d.email.size() <= 160
-      && d.destination is string && d.destination.size() <= 120
-      && d.notes is string && d.notes.size() <= 2500
-      && d.dates is string && d.dates.size() <= 160
-      && d.travelers is string && d.travelers.size() <= 50
-      && d.purpose is string && d.purpose.size() <= 160
-      && d.source in ['contact','create','enquiry']
-      && d.consent == true && d.status == 'new'
-      && d.createdAt == request.time;
+   return signedIn()
+    && d.keys().hasOnly(['name','email','phone','destination','dates','travelers','purpose','notes','source','consent','status','createdAt','ownerUid','assignedTo','leadSummary','followUpChannel','preferredContactTime'])
+    && d.keys().hasAll(['name','phone','consent','status','createdAt','source','ownerUid','assignedTo','leadSummary','followUpChannel','preferredContactTime'])
+    && d.name is string && d.name.size() >= 2 && d.name.size() <= 120
+    && d.phone is string && d.phone.size() >= 7 && d.phone.size() <= 40
+    && d.email is string && d.email.size() <= 160
+    && d.destination is string && d.destination.size() <= 120
+    && d.notes is string && d.notes.size() <= 2500
+    && d.leadSummary is string && d.leadSummary.size() <= 1800
+    && d.dates is string && d.dates.size() <= 160
+    && d.travelers is string && d.travelers.size() <= 50
+    && d.purpose is string && d.purpose.size() <= 160
+    && d.source in ['contact','create','enquiry','companion','match','customize']
+    && d.followUpChannel in ['call','whatsapp','email']
+    && d.preferredContactTime is string && d.preferredContactTime.size() <= 80
+    && d.ownerUid == request.auth.uid && d.assignedTo == ''
+    && d.consent == true && d.status == 'new'
+    && d.createdAt == request.time;
+  }
+  function assignedPublisher() {
+   return staff() && role() == 'publisher' && resource.data.get('assignedTo','') == request.auth.uid;
+  }
+  function enquiryStateValid() {
+   return request.resource.data.status in ['new','reviewing','contacted','proposal_ready','closed']
+     && request.resource.data.updatedAt is string
+     && request.resource.data.updatedAt.size() <= 40
+     && request.resource.data.updatedBy == request.auth.uid
+     && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','assignedTo','updatedAt','updatedBy'])
+     && request.resource.data.get('assignedTo','') is string
+     && request.resource.data.get('assignedTo','').size() <= 128
+     && (request.resource.data.get('assignedTo','') == '' || (
+        exists(/databases/$(database)/documents/teamUsers/$(request.resource.data.assignedTo))
+        && get(/databases/$(database)/documents/teamUsers/$(request.resource.data.assignedTo)).data.active == true
+        && get(/databases/$(database)/documents/teamUsers/$(request.resource.data.assignedTo)).data.role in ['super_admin','admin','publisher']
+       ));
   }
   match /enquiries/{id} {
    allow create: if validEnquiry(request.resource.data);
-   allow get,list: if adminAccess();
-   allow update: if adminAccess() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','updatedAt'])
-     && request.resource.data.status in ['new','contacted','closed'];
+   allow get: if adminAccess() || assignedPublisher() || (signedIn() && resource.data.get('ownerUid','') == request.auth.uid);
+   // Firestore queries for publishers must include where('assignedTo','==',uid).
+   allow list: if adminAccess() || assignedPublisher();
+   allow update: if (adminAccess() || assignedPublisher()) && enquiryStateValid()
+     && (adminAccess() || request.resource.data.get('assignedTo','') == resource.data.get('assignedTo',''));
    allow delete: if false;
   }
   match /{document=**} {allow read,write: if false;}

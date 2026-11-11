@@ -85,6 +85,6 @@ test('Firebase rules explicitly separate invite, member, media, public and publi
  assert.match(firestore,/function photoFieldsChanged\(\)/);
  assert.match(firestore,/!photoFieldsChanged\(\) \|\| request.resource.data.get\('mediaReviewStatus',''\) == 'pending'/);
  assert.match(firestore,/mediaReviewStatus/);
- assert.match(firestore,/allow get,list: if adminAccess\(\)/);
+ assert.match(firestore,/allow list: if adminAccess\(\) \|\| assignedPublisher\(\)/);
  assert.match(storage,/role in \['super_admin','admin','publisher','editor','media'\]/);
 });

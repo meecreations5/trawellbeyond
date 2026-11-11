@@ -9,6 +9,7 @@ import ImageLibrary from './ImageLibrary';
 import CompletionCenter from './CompletionCenter';
 import BulkRollout from './BulkRollout';
 import TeamManagement from './TeamManagement';
+import EnquiryInbox from './EnquiryInbox';
 import {TEAM_ROLES,ROLE_LABELS,canManageTeam,canPublishContent,canCreateContent,canEditRecord,canReadEnquiries,canDeleteContent,MEDIA_EDIT_FIELDS} from '@/lib/team-access.mjs';
 import {withMediaAsset} from '@/lib/media-variants.mjs';
 import {LAUNCH_STARTERS,STARTER_PUBLISH_PAGES} from '@/lib/launch-starters.mjs';
@@ -26,7 +27,7 @@ import {journeyGalleryPhotos,journeyPhotoReadiness} from '@/lib/journey-photos.m
 import './admin.css';
 const groups=['destinations','experiences','journeys','offers','pages'];
 const pagePresets=[['site-settings','Header & Footer'],['homepage','Homepage'],['our-story','Our Story'],['services','Services'],['faq','FAQ'],['contact','Contact'],['create','CREATE'],['enquire','Enquiry Page'],['journal','Journal'],['privacy','Privacy Notice'],['terms','Terms of Use']];
-const menu=[['dashboard','LayoutDashboard','Overview'],...groups.map(g=>[g,'FileText',CONTENT_LABELS[g]]),['media','Image','Media Library'],['completion','FileText','Content Completion'],['bulk','Layers','Image Completion & Rollout'],['enquiries','Inbox','Enquiries'],['team','FileText','Team & Access']];
+const menu=[['dashboard','LayoutDashboard','Overview'],...groups.map(g=>[g,'FileText',CONTENT_LABELS[g]]),['media','Image','Media Library'],['completion','FileText','Content Completion'],['bulk','Layers','Image Completion & Rollout'],['enquiries','Inbox','Journey Companion Inbox'],['team','FileText','Team & Access']];
 const textareas=new Set(['description','highlights','itinerary','summary','galleryImages','dayImages','imageCredits','faqs','storyBody1','storyBody2','storyBody3','purposeFirst','purposeFamily','purposeCouple','purposeExplorer','featuredExperienceSlugs','journeyInterests','includedNotes','toConfirmNotes','ticketNotes','inclusions','exclusions','seasonalNotes',...['homeEntryTitle','homeEntryLead','homeManifestoTitle','homeManifestoLead','homeDestinationsTitle','homeDestinationsLead','homeJourneysTitle','homeJourneysLead','homePurposeTitle','homePurposeLead','homeCreateTitle','homeCreateLead','homeClosingTitle','homeClosingLead','homeMomentTitle1','homeMomentLead1','homeMomentTitle2','homeMomentLead2','homeMomentTitle3','homeMomentLead3','homeWorldsTitle','homeWorldsLead','siteNavLinks','siteFooterLinks']]);
 const storyFieldSet=new Set(STORY_FIELDS);
 const destinationKnowledgeFields=['travelLanguages','travelCurrency','travelTimeZone','travelWeather','travelTransport','travelFood','travelStay','travelEntry','travelEssentials','travelGuideUrl','travelTransportUrl','travelEntryUrl','travelVerifiedOn'];
@@ -230,8 +231,6 @@ export default function AdminConsole(){
      completionTarget.current=null;
     }
     if(['experiences','journeys','offers'].includes(section)){const destinations=await request('/api/admin/content/destinations');setDestinationOptions(destinations.items||[]);}
-   }else if(section==='enquiries'){
-    const data=await request('/api/admin/enquiries');setEnquiries(data.items);
    }else if(section==='dashboard'){
     const records=await Promise.all(groups.map(async(type)=>{const d=await request(`/api/admin/content/${type}`);return [type,d.items]}));
     setDashboard(Object.fromEntries(records));
@@ -595,7 +594,7 @@ export default function AdminConsole(){
    {section==='completion'&&<CompletionCenter request={request} onOpenEditor={openFromCompletion} onOpenMedia={()=>switchSection('media')}/>}
    {section==='bulk'&&<BulkRollout request={request} role={staff?.role} onOpenEditor={openFromCompletion} onOpenMedia={()=>switchSection('media')}/>}
    {section==='team'&&canManageTeam(staff?.role)&&<TeamManagement request={request} currentUid={user.uid}/>}
-   {section==='enquiries'&&<div className="a-enquiry-grid">{enquiries.length===0&&!busy&&<div className="a-empty"><h2>No enquiries yet.</h2><p>Once a customer submits the CREATE or enquiry form, their details will appear here.</p></div>}{enquiries.map(item=><article key={item.id} className="a-enquiry-card"><div className="a-enquiry-head"><h3>{item.name}</h3><span className={`a-status ${item.status==='new'?'draft':'published'}`}>{item.status}</span></div><p>{item.phone} {item.email&&` · ${item.email}`}</p><p>{item.destination||'Destination not specified'} · {item.travelers||'—'} travellers · {item.dates||'Dates flexible'}</p><p>{item.notes||item.purpose||'No message provided.'}</p><small>{item.source} · {item.createdAt&&new Date(item.createdAt).toLocaleString('en-IN')}</small><div className="a-enquiry-actions"><a className="a-btn a-outline" href={`tel:${item.phone}`}>Call</a><button className="a-btn a-outline" disabled={busy} onClick={()=>changeEnquiry(item.id,'contacted')}>Mark Contacted</button><button className="a-btn a-outline" disabled={busy} onClick={()=>changeEnquiry(item.id,'closed')}>Close</button></div></article>)}</div>}
+   {section==='enquiries'&&<EnquiryInbox request={request} role={staff?.role}/>}
    </div>
   </main>
   {mediaOpen&&<div className="a-modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)setMediaOpen(false);}}><div className="a-modal"><header><h2>Choose a licensed photograph</h2><button onClick={()=>setMediaOpen(false)} aria-label="Close">✕</button></header><ImageLibrary request={request} initialQuery={photoSearchQuery(imageTarget)} preset={imageTarget==='heroImage'?'hero':STORY_IMAGE_FIELDS.includes(imageTarget)||imageTarget==='storyImage1'||imageTarget==='storyImage2'||imageTarget==='storyImage3'?'editorial':imageTarget==='galleryImages'||imageTarget==='dayImages'?'gallery':'original'} onSelect={asset=>{try{setForm(prev=>{const updated=withMediaAsset(prev,imageTarget,asset);return STORY_IMAGE_FIELDS.includes(imageTarget)&&prev.status==='draft'&&!canPublishContent(staff?.role)?{...updated,mediaReviewStatus:'pending',mediaReviewedBy:'',mediaReviewedAt:''}:updated;});setMediaOpen(false);setNotice({kind:'success',text:'Optimized photo selected and its responsive variants and available credits attached. Save the record to publish this selection.'});}catch(err){setNotice({kind:'error',text:err.message});}}}/></div></div>}

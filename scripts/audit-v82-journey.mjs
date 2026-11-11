@@ -1,0 +1,12 @@
+import {readFileSync,statSync} from 'node:fs';
+import assert from 'node:assert/strict';
+import {renderSiteChrome} from '../src/lib/site-chrome.mjs';
+const read=x=>readFileSync(x,'utf8');
+for(const f of ['public/v82-companion.js','public/v82-companion.css','src/lib/journey-assistant.mjs','src/components/v82/JourneyMatch.jsx','src/components/v82/MyJourney.jsx','src/components/v82/DayCustomizer.jsx','src/components/admin/EnquiryInbox.jsx'])assert.ok(statSync(f).size>500,`Missing substantial V8.2 module: ${f}`);
+const html=renderSiteChrome('<html><head></head><body><footer>Before</footer></body></html>');
+assert.ok(html.includes('v82-companion.js')&&html.includes('journey-tray.js'));
+const rules=read('firestore.rules');
+assert.ok(rules.includes('d.ownerUid == request.auth.uid')&&rules.includes('allow list: if adminAccess() || assignedPublisher()'));
+assert.ok(read('public/v82-companion.js').includes('window.TrawellBeyondCatalog.rank'));
+assert.ok(read('src/lib/enquiries-web.js').includes('rememberReceipt'));
+console.log('V8.2 journey, companion, admin, rules and legacy template integration checks passed.');

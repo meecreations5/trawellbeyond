@@ -1,5 +1,11 @@
 import {publishedList} from '@/lib/content-server';
-import ListingPage from '@/components/ListingPage';
-export const metadata={title:'Destinations'};
+import DestinationCatalogue from '@/components/DestinationCatalogue';
+import {normalizeRegionFilter} from '@/lib/destination-region.mjs';
+export const metadata={title:'Destinations | International & Domestic'};
 export const dynamic='force-dynamic';
-export default async function Destinations(){const items=await publishedList('destinations');return <ListingPage type="destinations" items={items} eyebrow="EXPLORE / THE WORLD" title="Every destination." accent="A personal story." description="From familiar favourites to places you have yet to imagine, explore where your story might take you."/>;}
+export default async function Destinations({searchParams}){
+ const query=await searchParams;
+ const scope=normalizeRegionFilter(String(query?.region||'').toLowerCase());
+ const items=await publishedList('destinations',200);
+ return <DestinationCatalogue items={items} scope={scope}/>;
+}

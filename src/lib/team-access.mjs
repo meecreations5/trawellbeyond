@@ -16,7 +16,7 @@ export const canEditDraft = role => ['super_admin','admin','publisher','editor',
 export const canCreateContent = role => ['super_admin','admin','publisher','editor'].includes(role);
 export const canEditText = role => ['super_admin','admin','publisher','editor'].includes(role);
 export const canManageMedia = role => canEditDraft(role);
-export const canReadEnquiries = role => ['super_admin','admin'].includes(role);
+export const canReadEnquiries = role => ['super_admin','admin','publisher'].includes(role);
 export const canDeleteContent = role => ['super_admin','admin'].includes(role);
 export const canEditRecord = (role, record) => !!record && (canPublishContent(role) || record.status === 'draft' && canEditDraft(role));
 /** Manual edits by content/media staff also need a Publisher to review any new

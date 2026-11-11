@@ -63,7 +63,7 @@ export function renderV51Destination(template,{destination,experiences=[],journe
   STORY_H_0:rich(item.storyTitle1||notes[0]||storyTitles[0]),STORY_H_1:rich(item.storyTitle2||notes[1]||storyTitles[1]),STORY_H_2:rich(item.storyTitle3||notes[2]||storyTitles[2]),
   STORY_P_0:esc(item.storyBody1||storyDesc[0]),STORY_P_1:esc(item.storyBody2||storyDesc[1]),STORY_P_2:esc(item.storyBody3||storyDesc[2]),
   STORY_IMAGE_0:photo(chapterImages[0]||gallery[0]),STORY_IMAGE_1:photo(chapterImages[1]||gallery[1]),STORY_IMAGE_2:photo(chapterImages[2]||gallery[2]),
-  DEST_GUIDE:renderTravelEssentials(item),DEST_VIDEO:renderVideoPreview(item,{eyebrow:'DESTINATION / FILM',heading:`${title}, in motion.`,image:item.heroImage}),
+  DEST_GUIDE:renderTravelEssentials(item)+`<div class="tb-v82-insider-callout page-width"><span>DESTINATION INSIDER / LOCAL KNOW-HOW</span><a href="/insider/${encode(item.slug||item.id)}">Explore the ${esc(title)} insider guide &nearr;</a></div>`,DEST_VIDEO:renderVideoPreview(item,{eyebrow:'DESTINATION / FILM',heading:`${title}, in motion.`,image:item.heroImage}),
   DESTINATION_GALLERY:gallery.length?`<section class="tb-editorial-gallery page-width" id="photo-gallery" aria-labelledby="galleryHeading"><div class="tb-editorial-gallery__heading rise"><div><span class="section-index">${esc(title.toUpperCase())} / ANOTHER PERSPECTIVE</span><h2 id="galleryHeading">A closer look.<br/><em>At the moments.</em></h2></div><p>Explore different perspectives of ${esc(title)}. Tap a photograph for a closer view.</p></div><div class="tb-editorial-gallery__grid">${gallery.map((url,i)=>galleryButton(url,`${title} / travel photograph ${i+1}`,i,{className:'rise',thumbUrl:resolveImageVariant(item,url,'thumb')})).join('')}</div></section>`:'',
   PHOTO_CREDITS:renderPhotoCredits(item.imageCredits),
   EXPERIENCE_TILES:featuredExperiences.length?featuredExperiences.slice(0,4).map(experienceTile).join(''):`<div class="cms-empty"><p>Experiences are being added for this destination.</p><a href="/enquire?destination=${encode(title)}">Tell us what you would love to explore ↗</a></div>`,
@@ -123,6 +123,6 @@ export function renderV51Journey(template,{journey,relatedExperiences=[],site={}
  // The approved template has a generic destination breadcrumb. Its path is filled from CMS.
  const plannerLink=`/create?destination=${encode(destTitle)}&nights=${encode(item.nights||3)}&notes=${encode(`Starting from ${title}. Preferred stay: ${item.nights||3} nights.`)}`;
  html=html.replace(/(<button\b[^>]*id="reviewJourney"[^>]*>)/,
-  `<a class="tb-inline-add" href="${plannerLink}" style="margin-bottom:14px">Or plan my days in CREATE ↗</a>$1`);
+  `<a class="tb-inline-add" href="${plannerLink}" style="margin-bottom:14px">Or plan my days in CREATE ↗</a><a class="tb-inline-add" style="margin:0 12px 14px" href="/customize?journey=${encode(item.slug||item.id)}">Request day-by-day changes ↗</a>$1`);
  return renderSiteChrome(html,site,true);
 }

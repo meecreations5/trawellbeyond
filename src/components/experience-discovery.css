@@ -10,3 +10,8 @@
 .ex-discovery-filters{border-radius:3px}
 @media(max-width:760px){.ex-purpose-picks{display:block}.ex-purpose-picks>div{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding:14px 0 5px;scroll-snap-type:x proximity}.ex-purpose-picks button{scroll-snap-align:start}}
 @media(prefers-reduced-motion:reduce){.ex-purpose-picks button{transition:none}}
+
+/* V8.2.1: five equal-access search controls on wide screens. */
+.ex-discovery-filters label{min-width:0}
+@media(min-width:1180px){.ex-discovery-filters{grid-template-columns:1.4fr repeat(4,minmax(0,1fr))}}
+@media(min-width:901px) and (max-width:1179px){.ex-discovery-filters{grid-template-columns:repeat(3,minmax(0,1fr))}}

@@ -1,3 +1,9 @@
+# V8.3 — Mobile App Experience (10 Nov 2026)
+
+**Start here:** [`docs/V8_3_MOBILE_APP_EXPERIENCE.md`](docs/V8_3_MOBILE_APP_EXPERIENCE.md). Focused mobile-first app-like presentation on top of V8.2.1: five-tab bottom navigation, original-logo CREATE action, mobile discovery shortcuts, thumb-friendly cards, simplified CREATE presentation and Journey Companion access. Existing desktop UI, approved logo, CMS, Auth, rules, media and enquiry workflows are preserved. This is mobile web, not an offline/native app. **Local checks: 191/191 tests passed; standalone Chromium previews checked at 320, 390, 768 and 1440px. Next.js production build and live Firebase/phone acceptance remain unverified.**
+
+---
+
 # V8.1.1 — CREATE & Experience Highlights UX Correction (9 Nov 2026)
 
 **Start here:** [`docs/V8_1_1_CREATE_EXPERIENCE_UX.md`](docs/V8_1_1_CREATE_EXPERIENCE_UX.md). Focused UI polish on top of V8.1. Fixes overlapping orange CREATE progress styles, replaces destination-biased purpose-card photography with original people-first illustrations, and makes Experience Highlights an intentional two-column editorial layout with contextual photos when available. Includes a broken-photo fallback and mobile scroll treatment. Existing logo, Admin/CMS roles, Firestore/Storage rules, Journey draft data, and enquiry flows are unchanged.
@@ -118,3 +124,9 @@ The destination page now supports official-source Travel Essentials: language, c
 ## V8.1.2 | Verified logo motion and CREATE CSS isolation
 
 This source patch adds a visible, first-session SVG reveal with a repeatable `?previewLogo=1` QA mode; isolates CREATE progress from conflicting older CSS; and adds DOM version markers for deployed-site verification. See `docs/V8_1_2_MOTION_AND_VISUAL_PARITY_AUDIT.md`. **This is not a completed production build or live-site acceptance.**
+
+## V8.2 - Created Around You (2026-11-10)
+
+This version implements both V8.2 experience phases together: the Journey Companion, Journey Match, structured customer enquiries and Admin inbox, plus My Journey comparison/sharing, individual-day customization, Destination Insider and same-session enquiry tracking. It builds on V8.1.2 and preserves the approved V4.2 visual identity and original SVG logo.
+
+**Start with:** `docs/V8_2_CREATED_AROUND_YOU_RELEASE.md`, then `npm install`, `npm test`, `npm run audit:journey:v82`, `npm run bundle:enquiries` and `npm run build`. V8.2 changes Firestore rules and requires Firebase Anonymous Authentication for visitor submissions. The development environment passed source tests and isolated browser checks but could not install dependencies or verify a full Next.js production build. Live security, images and customer enquiry acceptance are still mandatory.

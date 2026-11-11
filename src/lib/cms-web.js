@@ -1,7 +1,7 @@
 'use client';
 /** Privileged writes use the Firebase Web SDK and deployed Security Rules.
  * Only the owner can grant invitations; teammates cannot promote themselves. */
-import {collection,doc,getDoc,getDocs,query,limit,orderBy,documentId,startAfter,setDoc,runTransaction,deleteDoc,updateDoc,serverTimestamp} from 'firebase/firestore';
+import {collection,doc,getDoc,getDocs,query,limit,orderBy,documentId,startAfter,setDoc,runTransaction,deleteDoc,updateDoc,serverTimestamp,where} from 'firebase/firestore';
 import {ref as storageRef,uploadBytes,getDownloadURL,deleteObject,getBlob} from 'firebase/storage';
 import {clientAuth,clientDb,clientStorage,getIdTokenResult} from './firebase-client';
 import {CONTENT_TYPES,typePath,validateContent,slugify} from './content.mjs';
@@ -311,13 +311,34 @@ export async function cmsRequest(path,{method='GET',body,formData}={}){
    throw new Error('Unsupported completion action.');
   }
   if(parts[2]==='enquiries'){
-   if(!canReadEnquiries(user.role))throw new Error('Only Admins can access customer enquiries.');
-   if(method==='GET')return {ok:true,items:await listDocs('enquiries')};
+   if(!canReadEnquiries(user.role))throw new Error('Your role cannot view customer enquiries.');
+   if(parts[3]==='assignees'&&method==='GET'){
+    if(user.role!=='super_admin')return {ok:true,items:[],message:'Only the owner can list staff membership for assignment. Existing assignments can still be updated by your administrator.'};
+    const members=await listDocs('teamUsers');
+    return {ok:true,items:members.filter(m=>m.active&&['super_admin','admin','publisher'].includes(m.role)).map(m=>({uid:m.id,name:m.name||m.email||'Team member',role:m.role}))};
+   }
+   if(method==='GET'){
+    const items=user.role==='publisher'
+      ?(await getDocs(query(collection(clientDb(),'enquiries'),where('assignedTo','==',user.uid),limit(500)))).docs.map(d=>({...d.data(),id:d.id}))
+      :await listDocs('enquiries');
+    return {ok:true,items:items.sort((a,b)=>{const millis=x=>x?.createdAt?.toMillis?.()||Date.parse(String(x?.createdAt||''))||0;return millis(b)-millis(a);})};
+   }
    if(method==='PATCH'){
-    if(!body?.id || !['new','contacted','closed'].includes(body.status))throw new Error('Invalid enquiry status.');
-    await updateDoc(doc(clientDb(),'enquiries',body.id),{status:body.status,updatedAt:new Date().toISOString()});
+    const id=String(body?.id||'');
+    if(!/^[A-Za-z0-9]{8,40}$/.test(id))throw new Error('Invalid enquiry reference.');
+    const status=String(body?.status||'');
+    if(!['new','reviewing','contacted','proposal_ready','closed'].includes(status))throw new Error('Choose a valid enquiry status.');
+    const changes={status,updatedAt:new Date().toISOString(),updatedBy:user.uid};
+    if(Object.prototype.hasOwnProperty.call(body||{},'assignedTo')){
+     if(!['super_admin','admin'].includes(user.role))throw new Error('Only an Admin can assign enquiries.');
+     const uid=String(body.assignedTo||'');
+     if(uid&&!/^[A-Za-z0-9:_-]{10,128}$/.test(uid))throw new Error('Invalid staff UID.');
+     changes.assignedTo=uid;
+    }
+    await updateDoc(doc(clientDb(),'enquiries',id),changes);
     return {ok:true};
    }
+   throw new Error('Unsupported enquiry action.');
   }
   if(parts[2]==='media'){
    if(parts[3]==='reprocess'&&method==='POST'){

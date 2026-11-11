@@ -4,11 +4,11 @@ import {renderGlobalFooter,replaceGlobalFooter} from './global-footer.mjs';
  */
 export const DEFAULT_NAV=[
  ['Destinations','/destinations'],['Experiences','/experiences'],
- ['Journeys','/journeys'],['Our Story','/our-story'],['Contact','/contact']
+ ['Journeys','/journeys'],['Journey Match','/journey-match'],['Our Story','/our-story'],['Contact','/contact']
 ];
 export const DEFAULT_FOOTER=[
  ['Destinations','/destinations'],['Experiences','/experiences'],
- ['Journeys','/journeys'],['Offers','/offers'],['Our Story','/our-story'],
+ ['Journeys','/journeys'],['Journey Match','/journey-match'],['My Journey','/my-journey'],['My Enquiries','/my-enquiries'],['Offers','/offers'],['Our Story','/our-story'],
  ['Services','/services'],['FAQs','/faq'],['Contact','/contact'],
  ['Privacy','/privacy'],['Terms','/terms']
 ];
@@ -73,6 +73,12 @@ export function renderSiteChrome(source,record={},detail=false){
  // Share the Journey Tray across approved HTML templates without changing their layout.
  if(!html.includes('/journey-tray.css'))html=html.replace('</head>','<link rel="stylesheet" href="/journey-tray.css" />\n</head>');
  if(!html.includes('/journey-tray.js'))html=html.replace('</body>','<script src="/journey-tray.js" defer></script>\n</body>');
+ // V8.2 assistant is present on legacy HTML templates and React pages alike.
+ if(!html.includes('/v82-companion.css'))html=html.replace('</head>','<link rel="stylesheet" href="/v82-companion.css" />\n</head>');
+ if(!html.includes('/v82-companion.js'))html=html.replace('</body>','<script src="/v82-companion.js" defer></script>\n</body>');
+ // V8.3: mobile app presentation is shared by the original HTML routes and React pages.
+ if(!html.includes('/mobile-app.css'))html=html.replace('</head>','<link rel="stylesheet" href="/mobile-app.css" />\n</head>');
+ if(!html.includes('/mobile-app-dock.js'))html=html.replace('</body>','<script src="/mobile-app-dock.js" defer></script>\n</body>');
  // Never leave a prototype disclosure visible on a public live route.
  return html.replace(/V5\.1\s*[·-]\s*DESIGN PROTOTYPE/gi,'');
 }

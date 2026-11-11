@@ -6,6 +6,7 @@ import {siteConfig} from '@/lib/site-chrome.mjs';
 import {renderGlobalFooter} from '@/lib/global-footer.mjs';
 import PageMotion from './PageMotion';
 import BrandReveal from './motion/BrandReveal';
+import MobileAppDock from './MobileAppDock';
 
 export default function PublicShell({children,site={}}){
  const [mobile,setMobile]=useState(false),[scrolled,setScrolled]=useState(false);
@@ -27,6 +28,17 @@ export default function PublicShell({children,site={}}){
   script.src='/journey-tray.js';script.defer=true;script.dataset.tbJourneyScript='true';
   document.body.append(script);
  },[pathname]);
+ useEffect(()=>{
+  if(pathname?.startsWith('/admin')||document.getElementById('tb-v82-companion'))return;
+  const loadAssistant=()=>{
+   if(document.querySelector('script[data-tb-v82-script]'))return;
+   const script=document.createElement('script');script.src='/v82-companion.js';script.defer=true;script.dataset.tbV82Script='true';document.body.append(script);
+  };
+  if(window.TrawellBeyondCatalog){loadAssistant();return;}
+  const existing=document.querySelector('script[data-tb-v82-bridge]');
+  if(existing){existing.addEventListener('load',loadAssistant,{once:true});return;}
+  const script=document.createElement('script');script.src='/enquiry-bridge.bundle.js';script.dataset.tbV82Bridge='true';script.onload=loadAssistant;document.body.append(script);
+ },[pathname]);
  if(pathname?.startsWith('/admin'))return <>{children}</>;
  return <div className="tb-site"><BrandReveal/><a href="#main-content" className="tb-skip-link">Skip to content</a>
   <div className="tb-top-note"><span>{cfg.topLeft}</span><span>{cfg.topRight}</span></div>
@@ -41,6 +53,7 @@ export default function PublicShell({children,site={}}){
   </header>
   <div className="tb-page-content" id="main-content" tabIndex={-1}>{children}</div><PageMotion/>
   <div className="tb-global-footer-host" dangerouslySetInnerHTML={{__html:renderGlobalFooter(cfg)}} />
-  <Link className="tb-concierge" href="/enquire">Ask TrawellBeyond &#8599;</Link>
+  <MobileAppDock/>
+  <a className="tb-concierge" href="/enquire" data-tb-assistant-trigger="true" aria-label="Open TrawellBeyond Journey Companion, or visit enquiry page if the assistant is unavailable">Ask TrawellBeyond &#8599;</a>
  </div>;
 }
